@@ -15,7 +15,11 @@ LLM Agent Skill Retrieval 的失败模式与 Functional Mismatch 研究。当前
 | Pilot 抽样 | 完成 | 100 query / 500 pair |
 | Validation 抽样 | 完成 | 200 query / 1,000 pair |
 | 标注手册 | v1.0 | `docs/02_标注手册.md` |
-| Pilot 标注 | 未开始 | 先做 30 对校准 |
+| Pilot 标注 | 未开始 | 30 对校准集已生成，待人工标注与 LLM 对照 |
+
+## 标注方式
+
+单人工 + 4 个 LLM 预标/对照。人工标签是唯一参考，LLM 只做预标、triage 和一致性对照；不写 inter-annotator agreement。四个模型为 DeepSeek、Qwen、智谱、OpenAI，OpenAI 不通时用前三家多数票。详见 [`docs/03_LLM标注方案.md`](docs/03_LLM标注方案.md)。
 
 ## 主要结果
 
@@ -56,11 +60,14 @@ R@10，micro，SRA-Bench 5,400 条 query、26,262 个候选 skill：
 │   └── pilot/                   # 抽样、导出、BM25、Reranker、标注表脚本
 ├── data/
 │   ├── annotations/             # pilot / validation 标注表与 key
+│   ├── calibration/             # 30 对校准集
 │   └── samples/                 # 分层抽样清单
 ├── docs/
 │   ├── 01_最终实验计划.md
 │   ├── 02_标注手册.md
+│   ├── 03_LLM标注方案.md
 │   └── server_v100_setup.md
+├── llm/                         # prompt、provider 配置、调用脚本
 ├── logs/
 ├── results/
 │   ├── e0_dense_v100.json

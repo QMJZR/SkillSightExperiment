@@ -1,0 +1,1164 @@
+pair_id,q_block,query,reference_answer,skill_name,skill_description,skill_snippet,semantic,coverage,judgment,invalid_reason,evidence,confidence,notes,annotator
+Q001A,Q001,"Create a Python dictionary with a specified number of keys and values.
+Note that: Keys are randomly selected from a predefined list of letters, and values are consecutive integers starting from 1. Due to the randomness in key selection, the actual keys in the dictionary may vary in each execution.
+The function should output with:
+    dict: A Python dictionary with keys as strings and values as lists of integers.
+You should write self-contained code starting with:
+```
+import collections
+import random
+# Constants
+LETTERS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+def task_func(n_keys, n_values):
+```","
+    keys = [random.choice(LETTERS) for _ in range(n_keys)]
+    values = list(range(1, n_values + 1))
+    return dict(collections.OrderedDict((k, values) for k in keys))",uuid-generator,"Use when asked to generate UUIDs, GUIDs, unique identifiers in various formats (UUID1, UUID4, etc.).","uuid-generator
+Use when asked to generate UUIDs, GUIDs, unique identifiers in various formats (UUID1, UUID4, etc.).
+# UUID Generator
+
+Generate universally unique identifiers (UUIDs) in various formats for distributed systems, databases, and APIs.
+
+## Purpose
+
+UUID generation for:
+- Database primary keys
+- API resource identifiers
+- Distributed system coordination
+- Session tokens and tracking
+- File naming and versioning
+
+## Features
+
+- **Multiple Versions**: UUID1 (time-based), UUID4 (random), UUID5 (namespace)
+- **Bulk Generation**: Generate thousands of UUIDs
+- **Custom Formats**: Hyphenated, compact, URN format
+- **Namespace UUIDs**: Deterministic UUIDs from names
+- **Validation**: Check UUID format and version
+- **Export**: CSV, JSON, plain text
+
+## Quick Start
+
+```python
+from uuid_generator import UUIDGenerator
+
+# Generate UUID4 (random)
+gen = UUIDGenerator()
+uuid = gen.generate()  # 'a1b2c3d4-e5f6-4789-g0h1-i2j3k4l5m6n7'
+
+# Bulk generation
+uuids = gen.generate_bulk(count=1000, version=4)
+
+# Namespace UUID (deterministic)
+uuid = gen.generate_namespace('example.com', namespace='dns')
+```
+
+## CLI Usage
+
+```bash
+# Generate single UUID
+python uuid_generator.py
+
+# Generate 1000 UUIDs
+python uuid_generator.py --count 1000 --output uuids.txt
+
+# Generate namespace UUID
+python uuid_generator.py --namespace dns --name example.com
+```",,,,,,,,
+Q001B,Q001,"Create a Python dictionary with a specified number of keys and values.
+Note that: Keys are randomly selected from a predefined list of letters, and values are consecutive integers starting from 1. Due to the randomness in key selection, the actual keys in the dictionary may vary in each execution.
+The function should output with:
+    dict: A Python dictionary with keys as strings and values as lists of integers.
+You should write self-contained code starting with:
+```
+import collections
+import random
+# Constants
+LETTERS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+def task_func(n_keys, n_values):
+```","
+    keys = [random.choice(LETTERS) for _ in range(n_keys)]
+    values = list(range(1, n_values + 1))
+    return dict(collections.OrderedDict((k, values) for k in keys))","collections — Counter, defaultdict, OrderedDict, deque","Practical guide for collections module: Counter frequency counting, defaultdict aggregation, bigram patterns, deque mixed-type iteration, and flat-directory file processing.","collections — Counter, defaultdict, OrderedDict, deque
+Practical guide for collections module: Counter frequency counting, defaultdict aggregation, bigram patterns, deque mixed-type iteration, and flat-directory file processing.
+# collections — Counter, defaultdict, OrderedDict, deque
+
+## Counter: Frequency Counting
+
+`Counter` is a dict subclass; missing keys return `0`, no `KeyError`. The return type is `Counter`, which is acceptable wherever `dict` is expected (`isinstance(c, dict)` is `True`).
+
+```python
+from collections import Counter
+
+c = Counter(['apple', 'banana', 'apple', 'cherry'])
+# Counter({'apple': 2, 'banana': 1, 'cherry': 1})
+
+c = Counter(""abracadabra"")
+# Counter({'a': 5, 'b': 2, 'r': 2, 'c': 1, 'd': 1})
+```
+
+### most_common() — (element, count) tuples, descending
+
+```python
+c = Counter('aabbccc')
+c.most_common(2)       # [('c', 3), ('a', 2)]
+c.most_common(1)[0]    # ('c', 3) — the tuple
+c.most_common(1)[0][0] # 'c'      — element only
+c.most_common(1)[0][1] # 3        — count only
+c.most_common()        # all items, sorted by frequency descending
+```
+
+### Updating a Counter
+
+```python
+c = Counter()
+c.update('hello')        # adds character frequencies
+c.update({'x': 5})       # adds from dict
+c.update(['a', 'b'])     # adds from iterable
+
+# Direct increment (also works)
+c['word'] += 1
+```
+
+### Counter → dict
+
+`Counter` is already a dict subclass. Wrap in `dict()` only if the caller explicitly checks `type(x) == dict`:
+
+```python
+dict(counter)            # plain",,,,,,,,
+Q001C,Q001,"Create a Python dictionary with a specified number of keys and values.
+Note that: Keys are randomly selected from a predefined list of letters, and values are consecutive integers starting from 1. Due to the randomness in key selection, the actual keys in the dictionary may vary in each execution.
+The function should output with:
+    dict: A Python dictionary with keys as strings and values as lists of integers.
+You should write self-contained code starting with:
+```
+import collections
+import random
+# Constants
+LETTERS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+def task_func(n_keys, n_values):
+```","
+    keys = [random.choice(LETTERS) for _ in range(n_keys)]
+    values = list(range(1, n_values + 1))
+    return dict(collections.OrderedDict((k, values) for k in keys))",fuzzing-dictionary,"Fuzzing dictionaries guide fuzzers with domain-specific tokens. Use when fuzzing parsers, protocols, or format-specific code.","fuzzing-dictionary
+Fuzzing dictionaries guide fuzzers with domain-specific tokens. Use when fuzzing parsers, protocols, or format-specific code.
+# Fuzzing Dictionary
+
+A fuzzing dictionary provides domain-specific tokens to guide the fuzzer toward interesting inputs. Instead of purely random mutations, the fuzzer incorporates known keywords, magic numbers, protocol commands, and format-specific strings that are more likely to reach deeper code paths in parsers, protocol handlers, and file format processors.
+
+## Overview
+
+Dictionaries are text files containing quoted strings that represent meaningful tokens for your target. They help fuzzers bypass early validation checks and explore code paths that would be difficult to reach through blind mutation alone.
+
+### Key Concepts
+
+| Concept | Description |
+|---------|-------------|
+| **Dictionary Entry** | A quoted string (e.g., `""keyword""`) or key-value pair (e.g., `kw=""value""`) |
+| **Hex Escapes** | Byte sequences like `""\xF7\xF8""` for non-printable characters |
+| **Token Injection** | Fuzzer inserts dictionary entries into generated inputs |
+| **Cross-Fuzzer Format** | Dictionary files work with libFuzzer, AFL++, and cargo-fuzz |
+
+## When to Apply
+
+**Apply this technique when:**
+- Fuzzing parsers (JSON, XML, config files)
+- Fuzzing protocol implementations (HTTP, DNS, custom protocols)
+- Fuzzing file format handlers (PNG, PDF, media codecs)
+- Coverage plateaus early without reaching deeper logic
+- Target code checks for specific k",,,,,,,,
+Q001D,Q001,"Create a Python dictionary with a specified number of keys and values.
+Note that: Keys are randomly selected from a predefined list of letters, and values are consecutive integers starting from 1. Due to the randomness in key selection, the actual keys in the dictionary may vary in each execution.
+The function should output with:
+    dict: A Python dictionary with keys as strings and values as lists of integers.
+You should write self-contained code starting with:
+```
+import collections
+import random
+# Constants
+LETTERS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+def task_func(n_keys, n_values):
+```","
+    keys = [random.choice(LETTERS) for _ in range(n_keys)]
+    values = list(range(1, n_values + 1))
+    return dict(collections.OrderedDict((k, values) for k in keys))",random — Core API and Common Patterns,"Reference for random.choice/choices/sample/shuffle, seeding, integer generation, and common generation patterns.","random — Core API and Common Patterns
+Reference for random.choice/choices/sample/shuffle, seeding, integer generation, and common generation patterns.
+# Python `random` Module — Practical Reference
+
+## Core Selection Functions
+
+### `random.choice(seq)` — Single element from a sequence
+
+Returns one item per call. Each call advances the RNG state independently.
+
+```python
+import random
+color = random.choice(['red', 'green', 'blue'])
+```
+
+### `random.choices(population, k=n)` — Batch draw with replacement
+
+Returns a **list** of `k` elements in a single call. Produces a different RNG state trajectory than calling `random.choice` `k` times in a loop — given the same seed, the two approaches yield different outputs. Use `choices` when the task generates a sequence of characters, tokens, or items in one shot:
+
+```python
+# Generating a random string of fixed length
+label = ''.join(random.choices(string.ascii_letters, k=8))
+
+# Generating a list of n random items
+sample = random.choices(CATEGORIES, k=n)
+```
+
+### `random.sample(population, k)` — Draw without replacement
+
+```python
+hand = random.sample(deck, 5)   # 5 unique cards, no repeats
+```
+
+Use `sample` when uniqueness is required; `choices` when repeats are allowed.
+
+## Integer and Float Generation
+
+- `random.randint(a, b)` — integer N where `a <= N <= b` (both endpoints **inclusive**)
+- `random.randrange(a, b)` — integer N where `a <= N < b` (upper end **exclusive**)
+- `random.uniform(a, b)` — float in `[a, b]`
+- `random.random()",,,,,,,,
+Q001E,Q001,"Create a Python dictionary with a specified number of keys and values.
+Note that: Keys are randomly selected from a predefined list of letters, and values are consecutive integers starting from 1. Due to the randomness in key selection, the actual keys in the dictionary may vary in each execution.
+The function should output with:
+    dict: A Python dictionary with keys as strings and values as lists of integers.
+You should write self-contained code starting with:
+```
+import collections
+import random
+# Constants
+LETTERS = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+def task_func(n_keys, n_values):
+```","
+    keys = [random.choice(LETTERS) for _ in range(n_keys)]
+    values = list(range(1, n_values + 1))
+    return dict(collections.OrderedDict((k, values) for k in keys))","string — Constants, Frequency Dicts, and Text Utilities","Practical reference for string module constants, full-alphabet frequency dicts, itertools combos, text cleaning patterns, and input validation.","string — Constants, Frequency Dicts, and Text Utilities
+Practical reference for string module constants, full-alphabet frequency dicts, itertools combos, text cleaning patterns, and input validation.
+# Python `string` Module — Practical Reference
+
+## Key Constants
+
+```python
+import string
+
+string.ascii_lowercase   # 'abcdefghijklmnopqrstuvwxyz'  (26 chars)
+string.ascii_uppercase   # 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+string.ascii_letters     # lowercase + uppercase (52 chars)
+string.digits            # '0123456789'
+string.hexdigits         # '0123456789abcdefABCDEF'  (22 chars, both cases!)
+string.punctuation       # 32 ASCII punctuation characters
+string.whitespace        # ' \t\n\r\x0b\x0c'
+string.printable         # digits + letters + punctuation + whitespace (100 chars)
+```
+
+**Hex caveat**: `string.hexdigits` contains both cases — use `.lower()` when you need only `0-9a-f`:
+
+```python
+hex_chars = string.hexdigits.lower()   # '0123456789abcdef'
+```
+
+## Alphabet Position Lookup
+
+`string.ascii_lowercase` is a plain string; use `.index()` for 1-based positions:
+
+```python
+alphabet = string.ascii_lowercase
+alphabet.index('a') + 1   # 1
+alphabet.index('z') + 1   # 26
+```
+
+## Full 26-Letter Frequency Dicts (all zeros for missing letters)
+
+When the task asks for the frequency of **every** letter in the alphabet (including letters
+with zero count), initialize from `ascii_lowercase` first:
+
+```python
+from collections import Counter
+import string
+
+counts = Counter(text.lower())
+# Build a ",,,,,,,,
+Q002A,Q002,"In how many ways can a convex polygon with 8 sides be divided into triangles by connecting its vertices, with no intersecting lines?",132,Euler's Formula for Polyhedra and Planar Graphs,Applying V - E + F = 2 to find missing quantities and deriving the 12-pentagon result for fullerene-like polyhedra.,"Euler's Formula for Polyhedra and Planar Graphs
+Applying V - E + F = 2 to find missing quantities and deriving the 12-pentagon result for fullerene-like polyhedra.
+# Euler's Formula for Polyhedra and Planar Graphs
+
+## Euler's Formula
+
+For any convex polyhedron (or connected planar graph), the relationship between the number of vertices (V), edges (E), and faces (F) is:
+
+```
+V - E + F = 2
+```
+
+This is one of the most fundamental results in topology and graph theory.
+
+## Applying the Formula
+
+Given any two of V, E, F, the third can be found:
+
+```
+V = 2 - F + E = E - F + 2
+E = V + F - 2
+F = 2 - V + E = E - V + 2
+```
+
+**When given V and E**: F = E - V + 2
+**When given E and F**: V = 2 - F + E
+**When given V and F**: E = V + F - 2
+
+## Special Case: Fullerene-Like Polyhedra
+
+A 3-regular polyhedron (every vertex has degree 3) with only pentagonal and hexagonal faces satisfies:
+
+- Each edge is shared by exactly 2 faces: 2E = 5k + 6m (where k = number of pentagons, m = number of hexagons)
+- Each edge connects 2 vertices: 2E = 3V (since the graph is 3-regular)
+- Number of faces: F = k + m
+- Euler's formula: V - E + F = 2
+
+Using 2E = 3V to get V = 2E/3, and substituting into Euler's formula:
+```
+2E/3 - E + (k + m) = 2
+-E/3 + k + m = 2
+E = 3(k + m) - 6 = 3k + 3m - 6
+```
+
+From 2E = 5k + 6m:
+```
+2(3k + 3m - 6) = 5k + 6m
+6k + 6m - 12 = 5k + 6m
+k = 12
+```
+
+**A convex polyhedron with regular pentagonal and hexagonal faces always has exactly 12 pentagons**, regardless of the number of hexagons",,,,,,,,
+Q002B,Q002,"In how many ways can a convex polygon with 8 sides be divided into triangles by connecting its vertices, with no intersecting lines?",132,Similarity of Polygons and Triangles,"Applying polygon similarity to find side lengths, perimeters, and unknown parameters using scale factors.","Similarity of Polygons and Triangles
+Applying polygon similarity to find side lengths, perimeters, and unknown parameters using scale factors.
+# Similarity of Polygons and Triangles
+
+## Definition
+
+Two polygons are **similar** (denoted ~) if:
+1. Their corresponding angles are congruent, and
+2. Their corresponding sides are proportional (all ratios equal the same **scale factor** k).
+
+When polygon P₁ ~ polygon P₂, vertices are listed in **correspondence order**: the first vertex of P₁ corresponds to the first vertex of P₂, the second to the second, and so on.
+
+## Setting Up Correspondences
+
+**Step 1 — Read off corresponding vertices.** If polygon ABCDE ~ polygon PQRST, then:
+- A ↔ P, B ↔ Q, C ↔ R, D ↔ S, E ↔ T
+- Side AB corresponds to PQ, BC to QR, CD to RS, DE to ST, EA to TP.
+
+**Step 2 — Find the scale factor** using one pair of corresponding sides where both lengths are known:
+k = (length in P₂) / (length in P₁)
+
+**Critical error to avoid:** Using non-corresponding sides. The order of letters in the similarity statement defines the correspondence. AB always pairs with the first two vertices of the second polygon.
+
+**Step 3 — Apply the scale factor** to all unknown sides:
+(unknown side in P₂) = k × (corresponding side in P₁)
+
+## Perimeter Relationship
+
+Perimeter(P₂) = k × Perimeter(P₁)
+
+The scale factor applies directly to all linear measures (sides, diagonals, perimeter).
+
+## Identifying the Scale Factor from Multiple Clues
+
+When some sides in P₂ equal their counterparts in",,,,,,,,
+Q002C,Q002,"In how many ways can a convex polygon with 8 sides be divided into triangles by connecting its vertices, with no intersecting lines?",132,Sylvester's Problem (Four-Point Problem),Computing probabilities for the four-point problem: probability that four random points in a convex region are in convex position or that one lies inside the triangle of the others.,"Sylvester's Problem (Four-Point Problem)
+Computing probabilities for the four-point problem: probability that four random points in a convex region are in convex position or that one lies inside the triangle of the others.
+# Sylvester's Problem and the Four-Point Problem
+
+## Overview
+
+Sylvester's problem (also called the Sylvester–Gallai problem in combinatorics) overlaps in name with a classical geometric probability problem. The **four-point problem** asks: given n points chosen uniformly at random in a convex region, what is the probability that one of them lies inside the triangle (or convex hull) formed by the other three?
+
+The key result for four random points in a triangle is due to Woolhouse and others:
+
+**P(one point lies inside the triangle formed by the other three) = 1/3**
+
+Equivalently:
+**P(no point lies inside the triangle formed by the other three) = 1 - 1/3 = 2/3 ≈ 0.6667**
+
+## Key Result and Formula
+
+For four points chosen uniformly and independently inside a **triangle**:
+
+- P(the four points are in convex position) = 2/3
+- P(one point lies strictly inside the triangle of the other three) = 1/3
+
+These probabilities depend on the shape of the region:
+
+| Region | P(convex position) | P(one inside other three) |
+|---|---|---|
+| Triangle | 2/3 | 1/3 |
+| Disk / Circle | 1 - 35/(12pi^2) ≈ 0.7048 | 35/(12pi^2) ≈ 0.2952 |
+| Square / Convex quadrilateral | 11/72 + ... ≈ 0.7076 | ... |
+
+The triangle case yields the cleanest closed form: **2/3 and 1/3**.
+
+## Common Con",,,,,,,,
+Q002D,Q002,"In how many ways can a convex polygon with 8 sides be divided into triangles by connecting its vertices, with no intersecting lines?",132,Gauss–Wantzel Theorem,Determining constructibility of regular n-gons using Fermat primes and the Gauss–Wantzel criterion.,"Gauss–Wantzel Theorem
+Determining constructibility of regular n-gons using Fermat primes and the Gauss–Wantzel criterion.
+# Gauss–Wantzel Theorem (Constructibility of Regular Polygons)
+
+## Statement
+
+A regular n-gon is constructible with compass and straightedge if and only if n can be written in the form:
+
+n = 2^k · p₁ · p₂ · · · pₘ
+
+where k ≥ 0 and p₁, p₂, ..., pₘ are **distinct Fermat primes** (each appearing at most once in the product).
+
+The known Fermat primes are: **3, 5, 17, 257, 65537**. No other Fermat primes are currently known.
+
+## Fermat Primes
+
+A Fermat prime is a prime of the form F_k = 2^(2^k) + 1 for some k ≥ 0:
+- F₀ = 3
+- F₁ = 5
+- F₂ = 17
+- F₃ = 257
+- F₄ = 65537
+
+All other known Fermat numbers F₅ = 4294967297 = 641 × 6700417, F₆, ... are composite.
+
+## Constructibility Test
+
+To determine if a regular n-gon is constructible:
+
+1. Factor n into its prime factorization.
+2. Collect all factors of 2 (any power is allowed).
+3. For each remaining odd prime factor p:
+   - p must be a Fermat prime (one of 3, 5, 17, 257, 65537).
+   - p must appear exactly once (not p², p³, etc.).
+4. If all odd prime factors are distinct Fermat primes, the n-gon is constructible; otherwise, it is not.
+
+**Note on n = 1 and n = 2:** These are degenerate cases. Regular polygons are conventionally defined for n ≥ 3.
+
+## Worked Examples of the Test
+
+- n = 4 = 2²: no odd prime factors → constructible.
+- n = 6 = 2 · 3: odd factor 3 is a Fermat prime, appears once → constructible.
+- n = 7: prim",,,,,,,,
+Q002E,Q002,"In how many ways can a convex polygon with 8 sides be divided into triangles by connecting its vertices, with no intersecting lines?",132,Integer Programming and Combinatorial Optimization,"Solving LP problems using corner-point method, counting integer triangles, and discrete optimization with group constraints.","Integer Programming and Combinatorial Optimization
+Solving LP problems using corner-point method, counting integer triangles, and discrete optimization with group constraints.
+# Integer Programming and Combinatorial Optimization
+
+## Linear Programming — Graphical / Corner-Point Method
+
+For problems of the form: maximize (or minimize) cᵀx subject to linear constraints Ax ≤ b, x ≥ 0:
+
+1. **Identify the feasible region**: plot each constraint as a half-plane; the feasible region is their intersection.
+2. **Find the corner points (vertices)**: solve each pair of active constraints simultaneously.
+3. **Evaluate the objective function at each vertex**: the optimum is achieved at one of these corners (fundamental theorem of linear programming).
+
+For a 2-variable LP, the corner points are found by setting pairs of constraints to equality and solving the resulting 2×2 system.
+
+## Combinatorial Counting with Constraints
+
+Some ""integer programming"" problems in discrete mathematics involve counting configurations under constraints that combine integrality, partition, and distinctness requirements.
+
+**General approach:**
+1. Assign variables to each group or class.
+2. Write the constraints as a system of equations or inequalities.
+3. Maximize or minimize by exploring cases and using arithmetic.
+
+## Triangle Counting with Integer Sides
+
+A triangle with sides a ≤ b ≤ c (integers) exists if and only if a + b > c (triangle inequality). Problems asking to count triangles with a fixed maximum si",,,,,,,,
+Q005A,Q005,Who are the authors of Operational prototyping: a new development approach?,Alan M. Davis,organizational-transformation,"Lead an organizational transformation toward a modern product operating model (not “framework adoption”). Produces an Organizational Transformation Pack (diagnostic, target operating model, pilot plan, roadmap, comms, governance). Use for org transformation, product operating model change, moving from feature teams to empowered product teams, and change management. Category: Leadership.","organizational-transformation
+Lead an organizational transformation toward a modern product operating model (not “framework adoption”). Produces an Organizational Transformation Pack (diagnostic, target operating model, pilot plan, roadmap, comms, governance). Use for org transformation, product operating model change, moving from feature teams to empowered product teams, and change management. Category: Leadership.
+# Organizational Transformation
+
+## Scope
+
+**Covers**
+- Designing and leading a **practical transformation plan** to move a company toward a **modern product operating model**
+- “Nudging” legacy orgs: sequencing change so it’s adopted, not rejected
+- Avoiding the trap of treating **framework adoption** (Spotify, SAFe, etc.) as the end goal
+- Coordinating **structure + process + culture** changes (teams, decision rights, discovery/delivery, incentives, rituals)
+
+**When to use**
+- “Help me move us from **feature teams** to **empowered product teams**.”
+- “We keep adopting frameworks but nothing changes—build a **real transformation plan**.”
+- “Create a **90-day pilot plan** plus a roadmap for rolling out a product operating model.”
+- “Our leaders want transformation; teams are skeptical. Build a **change + comms plan** that reduces rejection.”
+
+**When NOT to use**
+- You need strategy/vision first (use `defining-product-vision` or `working-backwards`).
+- You only need an org chart / team topology change (use `organizational-design`).
+- You need project management for",,,,,,,,
+Q005B,Q005,Who are the authors of Operational prototyping: a new development approach?,Alan M. Davis,rapid-prototyper,"Creates minimal working prototypes for quick idea validation. Single-file when possible, includes test data, ready to demo immediately. Use when user says ""prototype"", ""MVP"", ""proof of concept"", ""quick demo"".","rapid-prototyper
+Creates minimal working prototypes for quick idea validation. Single-file when possible, includes test data, ready to demo immediately. Use when user says ""prototype"", ""MVP"", ""proof of concept"", ""quick demo"".
+# Rapid Prototyper
+
+## Purpose
+
+Fast validation through working prototypes. Creates complete, runnable code to test ideas before committing to full implementation:
+1. Recalls your preferred tech stack from memory
+2. Generates minimal but complete code
+3. Makes it runnable immediately
+4. Gets you visual feedback fast
+5. Saves validated patterns for production
+
+**For ADHD users**: Immediate gratification - working prototype in minutes, not hours.
+**For aphantasia**: Concrete, visual results instead of abstract descriptions.
+**For all users**: Validate before investing - fail fast, learn fast.
+
+## Activation Triggers
+
+- User says: ""prototype this"", ""quick demo"", ""proof of concept"", ""MVP""
+- User asks: ""can we build"", ""is it possible to"", ""how would we""
+- User mentions: ""try out"", ""experiment with"", ""test the idea""
+- Before major feature: proactive offer to prototype first
+
+## Core Workflow
+
+### 1. Understand Requirements
+
+Extract key information:
+
+```javascript
+{
+  feature: ""User authentication"",
+  purpose: ""Validate JWT flow works"",
+  constraints: [""Must work offline"", ""No external dependencies""],
+  success_criteria: [""Login form"", ""Token storage"", ""Protected route""]
+}
+```
+
+### 2. Recall Tech Stack
+
+Query context-manager:
+
+```bash
+search memories:
+- Type: D",,,,,,,,
+Q005C,Q005,Who are the authors of Operational prototyping: a new development approach?,Alan M. Davis,Forge,フロントエンド（UIコンポーネント/ページ）とバックエンド（APIモック/簡易サーバー）両面のプロトタイプを素早く構築。新機能の検証、アイデアを形にしたい時に使用。完璧より動くものを優先。,"Forge
+フロントエンド（UIコンポーネント/ページ）とバックエンド（APIモック/簡易サーバー）両面のプロトタイプを素早く構築。新機能の検証、アイデアを形にしたい時に使用。完璧より動くものを優先。
+<!--
+CAPABILITIES_SUMMARY:
+- frontend_prototype: React/Vue/HTML rapid prototyping with Tailwind CSS
+- backend_mock: Express/Fastify mock API servers with realistic data
+- fullstack_scaffold: Combined frontend + backend prototype in single project
+- interactive_demo: Clickable prototypes for stakeholder validation
+- data_seeding: Realistic test data generation for prototypes
+- rapid_iteration: Quick modification cycles prioritizing speed over perfection
+
+COLLABORATION_PATTERNS:
+- Pattern A: Prototype-to-Production (Forge → Artisan)
+- Pattern B: Prototype-to-Story (Forge → Showcase)
+- Pattern C: Idea-to-Prototype (Spark → Forge)
+- Pattern D: Design-to-Prototype (Vision → Forge)
+
+BIDIRECTIONAL_PARTNERS:
+- INPUT: Spark (feature specs), Vision (design direction), Muse (design tokens)
+- OUTPUT: Artisan (production handoff), Showcase (Storybook stories), Builder (backend implementation)
+
+PROJECT_AFFINITY: SaaS(H) E-commerce(H) Dashboard(H) Mobile(H) CLI(M) API(M)
+-->
+
+# Forge
+
+> **""Done is better than perfect. Ship it, learn, iterate.""**
+
+You are ""Forge"" ⚒️ - a rapid prototyper and MVP builder who values execution over perfection.
+Your mission is to build ONE working prototype, component, or feature concept using mock data or scaffolding.
+
+---
+
+## PRINCIPLES
+
+1. **Done beats perfect** - Working software trumps perfect specifications
+2. **Mock it until you make it** - Use fake data to",,,,,,,,
+Q005D,Q005,Who are the authors of Operational prototyping: a new development approach?,Alan M. Davis,product-operations,"Help users build and scale product operations functions. Use when someone is scaling a product team, struggling with cross-functional coordination, needs to standardize product processes, or wants to improve how insights reach product teams.","product-operations
+Help users build and scale product operations functions. Use when someone is scaling a product team, struggling with cross-functional coordination, needs to standardize product processes, or wants to improve how insights reach product teams.
+# Product Operations
+
+Help the user build and scale product operations functions using frameworks from 5 product leaders.
+
+## How to Help
+
+When the user asks for help with product operations:
+
+1. **Understand the pain points** - Ask what's breaking down in their current product processes
+2. **Assess organizational scale** - Determine if they're at the stage where dedicated product ops makes sense
+3. **Define the scope** - Help them clarify what product ops should own vs. what PMs should retain
+4. **Design the systems** - Create processes that enable product teams without creating bureaucracy
+
+## Core Principles
+
+### Product ops bridges product and operations
+Brian Tolkin: ""One solution to that problem, our solution at the time was to start up a new function called product operations who had accountability and reported into operations but physically sat with and operated much like a member of the product team."" Product ops originated as a bridge between centralized product teams and distributed operations, ensuring product decisions account for operational reality.
+
+### Product ops creates systems for product teams to thrive
+Christine Itwaru: ""Product operations for a VP or a head of product or a product manager is the c",,,,,,,,
+Q005E,Q005,Who are the authors of Operational prototyping: a new development approach?,Alan M. Davis,product-operations,"Design and implement Product Operations systems that help product teams scale (cadences, standard artifacts, insights pipelines, release enablement). Produces a Product Ops Operating System Pack (charter, operating model, rituals, templates, implementation plan). Use for product ops, product org scaling, standardizing roadmaps/check-ins, release management enablement.","product-operations
+Design and implement Product Operations systems that help product teams scale (cadences, standard artifacts, insights pipelines, release enablement). Produces a Product Ops Operating System Pack (charter, operating model, rituals, templates, implementation plan). Use for product ops, product org scaling, standardizing roadmaps/check-ins, release management enablement.
+# Product Operations
+
+## Scope
+
+**Covers**
+- Defining a **Product Ops charter** that clarifies accountability, boundaries, and “how we work”
+- Building **systems that help PMs thrive**: cadences, standardized artifacts, and decision support (not decision-making)
+- Creating **cross-functional interfaces** (Product ↔ Ops/Sales/CS/Eng/Data/Support) to reduce friction and surprises
+- Standing up an **insights pipeline** (qual + quant) so product teams get the right signals at the right time
+- Operationalizing **shipping + enablement**: release readiness, internal comms, training, and feedback loops
+
+**When to use**
+- “We need **Product Ops**—define what it is here and what it owns.”
+- “Our product team is scaling; we need **standard roadmaps/check-ins** and better operating cadence.”
+- “PMs are drowning in coordination; set up a **system** to reduce overhead.”
+- “Create a **release enablement** process (readiness, comms, training, feedback).”
+- “We need a repeatable **insights → decisions** pipeline across Product/CS/Sales.”
+
+**When NOT to use**
+- You need to choose *what to build* (use `prioritiz",,,,,,,,
+Q007A,Q007,"Patient Note:
+A 57-year-old female had been diagnosed as having HCV infection in 2008 in another hospital. Laboratory test showed that her serum and anti-HCV, and HCV ribonucleic acid (RNA) were positive in October 2010 at Kitasato University East Hospital. The patient’s laboratory findings prior to receiving treatment, in March 2011, are shown in the Table . The ITPA gene showed one single nucleotide polymorphism (SNP) (rs1127354) C/C (major homozygous) and the IL28B gene showed SNP (rs8099917 T/T, rs11881222 T/T) (major homozygous) [].
+She had a history of a little alcohol consumption and of smoking 20 cigarettes per day for longer than 30 years. Her height was 156.3 cm, and her body weight was 57.5 kg. Her mother had a history of hypertension. The patient had no history of ever having a blood transfusion. The ultrasonographic examination showed that the patient’s liver, spleen, and pancreas were normal, but she had gallstones. The liver biopsy revealed chronic active hepatitis (fibrosis grade 3 and inflammatory activity grade 1) in the Metavir classification and a hepatic activity index score of 1-1-3-3 (Figure ).
+The patient was treated with PEG-IFN-α-2a 180 μg once a week combined with ribavirin 600 mg per day from April 2011. The HCV RNA turned negative 9 weeks after treatment with PEG-IFN-α-2a. During the therapy, the platelet count remained above 8.0 × 104/μl for about 9 months. In January 2012, the platelet count was 6.8 × 104/μl. In February 2012, the 44th week from the beginning of the treatment, a sudden decrease in the platelet count to 0.8 × 104/μl was observed (Figure ). Severe thrombocytopenia caused by the PEG-IFN-α-2a therapy was suspected. Therefore, the PEG-IFN-α-2a and ribavirin were discontinued. The patient was then admitted to our hospital.
+On admission, the blood pressure, temperature and pulse of the patient were normal. Her white blood cell and neutrophil values were also in the normal range. And there was no evidence of bacterial, viral, or other microorganism infection. Purpura were noted on both lower limbs and her trunk. The white blood cell count was 3000/μl, the red blood cell count was 3.14 × 106/μl, hemoglobin was 11.2 g/dl, but the platelet count had decreased to 1.1 × 104/μl. The liver function and coagulation function were normal. But the PAIgG was elevated to 180 ng/L (normal range, 9-25 ng/L).
+A bone marrow aspiration examination was performed to investigate the etiology of the thrombocytopenia. The specimen revealed that there was hypoplasia of myelocytes (especially in megakaryocytes) but no myeloblasts, which did not suggest any evidence of bone marrow disease (Figure ).
+Based on these results, she was diagnosed as having immune-mediated thrombocytopenia caused by the PEG-IFN-α-2a therapy. Therefore, the PEG-IFN/RBV was discontinued, but the platelet count remained below 1.0 × 104/μl. We confirmed that her anti-Helicobacter pylori was positive but did not perform eradication therapy. In March 2012, 60 mg of prednisolone were administered orally. After starting corticosteroid therapy, the platelet count increased gradually. Then the prednisolone was gradually tapered down by 10 mg every 4 days, the platelet count gradually rose above 10 × 104/μl, and the PAIgG was decreased to 80 ng/L. When the prednisolone dosage decreased to 30 mg per day orally, she was discharged. The prednisolone was gradually tapered off, and the platelet count returned to normal (Figure ). Prednisolone was discontinued in May 2012. Her platelet count remained normal during the follow-up. And HCV RNA has never been detected since. She was diagnosed as having a sustained virologic response (SVR) 6 months later.
+
+Task:
+Using the adjusted body weight formula, what is the patient's adjusted body weight in terms of kg? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.",52.41895,Ideal Body Weight,Compute IBW using the Devine formula from height (cm) and sex.,"Ideal Body Weight
+Compute IBW using the Devine formula from height (cm) and sex.
+## Ideal Body Weight (IBW)
+
+Ideal Body Weight (IBW) is an estimate of the optimal body weight for a given height and sex, commonly used in clinical settings to guide drug dosing (e.g., for aminoglycosides, vancomycin, chemotherapy), ventilator tidal volume calculations, and nutritional assessments.
+
+### Required Inputs
+
+- **Height**: patient's height (cm or inches)
+- **Sex**: patient's biological sex (male or female)
+
+### Computation
+
+IBW is calculated using the Devine formula:
+
+- **Male**: IBW (kg) = 50 + 2.3 × (height in inches − 60)
+- **Female**: IBW (kg) = 45.5 + 2.3 × (height in inches − 60)
+
+**Height conversion:**
+If height is given in cm, convert to inches:
+```
+height (inches) = height (cm) × 0.393701
+```
+
+**Important notes:**
+- This formula applies to adults with height > 60 inches (152.4 cm). For patients ≤ 60 inches tall, IBW equals the base value (50 kg for males, 45.5 kg for females) — do not subtract.
+- IBW is not used for pediatric patients.
+
+### Calculation Tool
+
+The following tool is available for computation:
+- `compute_ibw(height_cm, sex)`: computes IBW in kg given height in cm and sex as `""male""` or `""female""`
+
+### Example
+
+Patient: 35-year-old female, height 170 cm.
+
+Step 1: Extract values.
+- Height: 170 cm
+- Sex: female
+
+Step 2: Compute IBW.
+TOOL_CALL: compute_ibw(height_cm=170, sex=""female"")
+TOOL_RESULT: 61.53417
+
+The patient's IBW is 61.53417 kg.",,,,,,,,
+Q007B,Q007,"Patient Note:
+A 57-year-old female had been diagnosed as having HCV infection in 2008 in another hospital. Laboratory test showed that her serum and anti-HCV, and HCV ribonucleic acid (RNA) were positive in October 2010 at Kitasato University East Hospital. The patient’s laboratory findings prior to receiving treatment, in March 2011, are shown in the Table . The ITPA gene showed one single nucleotide polymorphism (SNP) (rs1127354) C/C (major homozygous) and the IL28B gene showed SNP (rs8099917 T/T, rs11881222 T/T) (major homozygous) [].
+She had a history of a little alcohol consumption and of smoking 20 cigarettes per day for longer than 30 years. Her height was 156.3 cm, and her body weight was 57.5 kg. Her mother had a history of hypertension. The patient had no history of ever having a blood transfusion. The ultrasonographic examination showed that the patient’s liver, spleen, and pancreas were normal, but she had gallstones. The liver biopsy revealed chronic active hepatitis (fibrosis grade 3 and inflammatory activity grade 1) in the Metavir classification and a hepatic activity index score of 1-1-3-3 (Figure ).
+The patient was treated with PEG-IFN-α-2a 180 μg once a week combined with ribavirin 600 mg per day from April 2011. The HCV RNA turned negative 9 weeks after treatment with PEG-IFN-α-2a. During the therapy, the platelet count remained above 8.0 × 104/μl for about 9 months. In January 2012, the platelet count was 6.8 × 104/μl. In February 2012, the 44th week from the beginning of the treatment, a sudden decrease in the platelet count to 0.8 × 104/μl was observed (Figure ). Severe thrombocytopenia caused by the PEG-IFN-α-2a therapy was suspected. Therefore, the PEG-IFN-α-2a and ribavirin were discontinued. The patient was then admitted to our hospital.
+On admission, the blood pressure, temperature and pulse of the patient were normal. Her white blood cell and neutrophil values were also in the normal range. And there was no evidence of bacterial, viral, or other microorganism infection. Purpura were noted on both lower limbs and her trunk. The white blood cell count was 3000/μl, the red blood cell count was 3.14 × 106/μl, hemoglobin was 11.2 g/dl, but the platelet count had decreased to 1.1 × 104/μl. The liver function and coagulation function were normal. But the PAIgG was elevated to 180 ng/L (normal range, 9-25 ng/L).
+A bone marrow aspiration examination was performed to investigate the etiology of the thrombocytopenia. The specimen revealed that there was hypoplasia of myelocytes (especially in megakaryocytes) but no myeloblasts, which did not suggest any evidence of bone marrow disease (Figure ).
+Based on these results, she was diagnosed as having immune-mediated thrombocytopenia caused by the PEG-IFN-α-2a therapy. Therefore, the PEG-IFN/RBV was discontinued, but the platelet count remained below 1.0 × 104/μl. We confirmed that her anti-Helicobacter pylori was positive but did not perform eradication therapy. In March 2012, 60 mg of prednisolone were administered orally. After starting corticosteroid therapy, the platelet count increased gradually. Then the prednisolone was gradually tapered down by 10 mg every 4 days, the platelet count gradually rose above 10 × 104/μl, and the PAIgG was decreased to 80 ng/L. When the prednisolone dosage decreased to 30 mg per day orally, she was discharged. The prednisolone was gradually tapered off, and the platelet count returned to normal (Figure ). Prednisolone was discontinued in May 2012. Her platelet count remained normal during the follow-up. And HCV RNA has never been detected since. She was diagnosed as having a sustained virologic response (SVR) 6 months later.
+
+Task:
+Using the adjusted body weight formula, what is the patient's adjusted body weight in terms of kg? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.",52.41895,Child-Pugh Score for Cirrhosis Mortality,"Compute Child-Pugh score for cirrhosis severity from bilirubin, albumin, INR, ascites, and encephalopathy.","Child-Pugh Score for Cirrhosis Mortality
+Compute Child-Pugh score for cirrhosis severity from bilirubin, albumin, INR, ascites, and encephalopathy.
+## Child-Pugh Score for Cirrhosis Mortality
+
+The Child-Pugh score assesses the severity of chronic liver disease, particularly cirrhosis, and predicts short-term prognosis and surgical risk. It is composed of five clinical and laboratory criteria, each scored from 1 to 3 points.
+
+### Required Inputs
+
+- **Bilirubin**: total serum bilirubin (mg/dL)
+- **Albumin**: serum albumin (g/dL)
+- **INR**: international normalized ratio
+- **Ascites**: clinical status — absent, slight (mild/controlled), or moderate (tense/refractory)
+- **Encephalopathy**: hepatic encephalopathy grade — none (grade 0), grade 1–2, or grade 3–4
+
+### Scoring Criteria
+
+| Criterion | 1 Point | 2 Points | 3 Points |
+|---|---|---|---|
+| Bilirubin (mg/dL) | < 2 | 2–3 | > 3 |
+| Albumin (g/dL) | > 3.5 | 2.8–3.5 | < 2.8 |
+| INR | < 1.7 | 1.7–2.3 | > 2.3 |
+| Ascites | Absent | Slight | Moderate |
+| Encephalopathy | None (Grade 0) | Grade 1–2 | Grade 3–4 |
+
+**Boundary values:** Albumin of exactly 2.8 g/dL scores 2 points (2.8–3.5 range). Albumin of exactly 3.5 g/dL scores 2 points. INR of exactly 1.7 scores 2 points (1.7–2.3 range). INR of exactly 2.3 scores 2 points.
+
+Total score = sum of all five criteria points (range: 5–15).
+
+**Child-Pugh Class:**
+- Class A: 5–6 points (well-compensated cirrhosis)
+- Class B: 7–9 points (significant functional compromise)
+- Class C: 10–15 ",,,,,,,,
+Q007C,Q007,"Patient Note:
+A 57-year-old female had been diagnosed as having HCV infection in 2008 in another hospital. Laboratory test showed that her serum and anti-HCV, and HCV ribonucleic acid (RNA) were positive in October 2010 at Kitasato University East Hospital. The patient’s laboratory findings prior to receiving treatment, in March 2011, are shown in the Table . The ITPA gene showed one single nucleotide polymorphism (SNP) (rs1127354) C/C (major homozygous) and the IL28B gene showed SNP (rs8099917 T/T, rs11881222 T/T) (major homozygous) [].
+She had a history of a little alcohol consumption and of smoking 20 cigarettes per day for longer than 30 years. Her height was 156.3 cm, and her body weight was 57.5 kg. Her mother had a history of hypertension. The patient had no history of ever having a blood transfusion. The ultrasonographic examination showed that the patient’s liver, spleen, and pancreas were normal, but she had gallstones. The liver biopsy revealed chronic active hepatitis (fibrosis grade 3 and inflammatory activity grade 1) in the Metavir classification and a hepatic activity index score of 1-1-3-3 (Figure ).
+The patient was treated with PEG-IFN-α-2a 180 μg once a week combined with ribavirin 600 mg per day from April 2011. The HCV RNA turned negative 9 weeks after treatment with PEG-IFN-α-2a. During the therapy, the platelet count remained above 8.0 × 104/μl for about 9 months. In January 2012, the platelet count was 6.8 × 104/μl. In February 2012, the 44th week from the beginning of the treatment, a sudden decrease in the platelet count to 0.8 × 104/μl was observed (Figure ). Severe thrombocytopenia caused by the PEG-IFN-α-2a therapy was suspected. Therefore, the PEG-IFN-α-2a and ribavirin were discontinued. The patient was then admitted to our hospital.
+On admission, the blood pressure, temperature and pulse of the patient were normal. Her white blood cell and neutrophil values were also in the normal range. And there was no evidence of bacterial, viral, or other microorganism infection. Purpura were noted on both lower limbs and her trunk. The white blood cell count was 3000/μl, the red blood cell count was 3.14 × 106/μl, hemoglobin was 11.2 g/dl, but the platelet count had decreased to 1.1 × 104/μl. The liver function and coagulation function were normal. But the PAIgG was elevated to 180 ng/L (normal range, 9-25 ng/L).
+A bone marrow aspiration examination was performed to investigate the etiology of the thrombocytopenia. The specimen revealed that there was hypoplasia of myelocytes (especially in megakaryocytes) but no myeloblasts, which did not suggest any evidence of bone marrow disease (Figure ).
+Based on these results, she was diagnosed as having immune-mediated thrombocytopenia caused by the PEG-IFN-α-2a therapy. Therefore, the PEG-IFN/RBV was discontinued, but the platelet count remained below 1.0 × 104/μl. We confirmed that her anti-Helicobacter pylori was positive but did not perform eradication therapy. In March 2012, 60 mg of prednisolone were administered orally. After starting corticosteroid therapy, the platelet count increased gradually. Then the prednisolone was gradually tapered down by 10 mg every 4 days, the platelet count gradually rose above 10 × 104/μl, and the PAIgG was decreased to 80 ng/L. When the prednisolone dosage decreased to 30 mg per day orally, she was discharged. The prednisolone was gradually tapered off, and the platelet count returned to normal (Figure ). Prednisolone was discontinued in May 2012. Her platelet count remained normal during the follow-up. And HCV RNA has never been detected since. She was diagnosed as having a sustained virologic response (SVR) 6 months later.
+
+Task:
+Using the adjusted body weight formula, what is the patient's adjusted body weight in terms of kg? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.",52.41895,HAS-BLED Score for Major Bleeding Risk,Compute HAS-BLED score for major bleeding risk in patients on anticoagulation therapy.,"HAS-BLED Score for Major Bleeding Risk
+Compute HAS-BLED score for major bleeding risk in patients on anticoagulation therapy.
+## HAS-BLED Score for Major Bleeding Risk
+
+The HAS-BLED score estimates the 1-year risk of major bleeding in patients on anticoagulation therapy for atrial fibrillation, helping to identify modifiable bleeding risk factors.
+
+### Required Inputs
+
+- **Age**: patient age in years
+- **Hypertension**: uncontrolled systolic BP > 160 mmHg (present or absent)
+- **Renal disease**: dialysis, renal transplant, or creatinine > 2.26 mg/dL (> 200 µmol/L) (present or absent)
+- **Liver disease**: cirrhosis, or bilirubin > 2× normal with AST/ALT/alkaline phosphatase > 3× normal (present or absent)
+- **Stroke history**: present or absent
+- **Prior major bleeding or predisposition to bleeding**: present or absent
+- **Labile INR**: unstable or high INRs, or time in therapeutic range < 60% (present or absent)
+- **Medications predisposing to bleeding**: antiplatelet agents (aspirin, clopidogrel) or NSAIDs (present or absent)
+- **Alcohol use**: ≥ 8 drinks/week (present or absent)
+
+### Scoring Criteria
+
+| Criterion | Condition | Points |
+|---|---|---|
+| Hypertension (uncontrolled, SBP > 160) | Absent | 0 |
+| Hypertension (uncontrolled, SBP > 160) | Present | +1 |
+| Abnormal renal function | Absent | 0 |
+| Abnormal renal function | Present | +1 |
+| Abnormal liver function | Absent | 0 |
+| Abnormal liver function | Present | +1 |
+| Stroke history | Absent | 0 |
+| Stroke history",,,,,,,,
+Q007D,Q007,"Patient Note:
+A 57-year-old female had been diagnosed as having HCV infection in 2008 in another hospital. Laboratory test showed that her serum and anti-HCV, and HCV ribonucleic acid (RNA) were positive in October 2010 at Kitasato University East Hospital. The patient’s laboratory findings prior to receiving treatment, in March 2011, are shown in the Table . The ITPA gene showed one single nucleotide polymorphism (SNP) (rs1127354) C/C (major homozygous) and the IL28B gene showed SNP (rs8099917 T/T, rs11881222 T/T) (major homozygous) [].
+She had a history of a little alcohol consumption and of smoking 20 cigarettes per day for longer than 30 years. Her height was 156.3 cm, and her body weight was 57.5 kg. Her mother had a history of hypertension. The patient had no history of ever having a blood transfusion. The ultrasonographic examination showed that the patient’s liver, spleen, and pancreas were normal, but she had gallstones. The liver biopsy revealed chronic active hepatitis (fibrosis grade 3 and inflammatory activity grade 1) in the Metavir classification and a hepatic activity index score of 1-1-3-3 (Figure ).
+The patient was treated with PEG-IFN-α-2a 180 μg once a week combined with ribavirin 600 mg per day from April 2011. The HCV RNA turned negative 9 weeks after treatment with PEG-IFN-α-2a. During the therapy, the platelet count remained above 8.0 × 104/μl for about 9 months. In January 2012, the platelet count was 6.8 × 104/μl. In February 2012, the 44th week from the beginning of the treatment, a sudden decrease in the platelet count to 0.8 × 104/μl was observed (Figure ). Severe thrombocytopenia caused by the PEG-IFN-α-2a therapy was suspected. Therefore, the PEG-IFN-α-2a and ribavirin were discontinued. The patient was then admitted to our hospital.
+On admission, the blood pressure, temperature and pulse of the patient were normal. Her white blood cell and neutrophil values were also in the normal range. And there was no evidence of bacterial, viral, or other microorganism infection. Purpura were noted on both lower limbs and her trunk. The white blood cell count was 3000/μl, the red blood cell count was 3.14 × 106/μl, hemoglobin was 11.2 g/dl, but the platelet count had decreased to 1.1 × 104/μl. The liver function and coagulation function were normal. But the PAIgG was elevated to 180 ng/L (normal range, 9-25 ng/L).
+A bone marrow aspiration examination was performed to investigate the etiology of the thrombocytopenia. The specimen revealed that there was hypoplasia of myelocytes (especially in megakaryocytes) but no myeloblasts, which did not suggest any evidence of bone marrow disease (Figure ).
+Based on these results, she was diagnosed as having immune-mediated thrombocytopenia caused by the PEG-IFN-α-2a therapy. Therefore, the PEG-IFN/RBV was discontinued, but the platelet count remained below 1.0 × 104/μl. We confirmed that her anti-Helicobacter pylori was positive but did not perform eradication therapy. In March 2012, 60 mg of prednisolone were administered orally. After starting corticosteroid therapy, the platelet count increased gradually. Then the prednisolone was gradually tapered down by 10 mg every 4 days, the platelet count gradually rose above 10 × 104/μl, and the PAIgG was decreased to 80 ng/L. When the prednisolone dosage decreased to 30 mg per day orally, she was discharged. The prednisolone was gradually tapered off, and the platelet count returned to normal (Figure ). Prednisolone was discontinued in May 2012. Her platelet count remained normal during the follow-up. And HCV RNA has never been detected since. She was diagnosed as having a sustained virologic response (SVR) 6 months later.
+
+Task:
+Using the adjusted body weight formula, what is the patient's adjusted body weight in terms of kg? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.",52.41895,Fibrosis-4 (FIB-4) Index for Liver Fibrosis,"Compute FIB-4 index from age, AST, ALT, and platelet count to estimate hepatic fibrosis.","Fibrosis-4 (FIB-4) Index for Liver Fibrosis
+Compute FIB-4 index from age, AST, ALT, and platelet count to estimate hepatic fibrosis.
+## Fibrosis-4 (FIB-4) Index for Liver Fibrosis
+
+The FIB-4 index is a non-invasive scoring tool used to estimate the degree of hepatic fibrosis in patients with chronic liver disease. It combines patient age with three routine laboratory values to stratify fibrosis risk.
+
+### Required Inputs
+
+- **Age**: patient age in years
+- **AST**: aspartate aminotransferase concentration (U/L)
+- **ALT**: alanine aminotransferase concentration (U/L)
+- **Platelet count**: reported as count/µL (e.g., 200,000 count/µL) or ×10⁹/L (e.g., 200 ×10⁹/L)
+
+### Unit Conversion for Platelet Count
+
+Platelet count is commonly reported in count/µL or ×10³/µL. The FIB-4 formula requires the count expressed in **billions per liter (×10⁹/L)**:
+
+- If reported as count/µL: multiply by 1,000,000 µL/L then divide by 10⁹ → effectively divide by 1,000.
+  - Example: 150,000 count/µL ÷ 1,000 = 150 (×10⁹/L)
+- If already reported as ×10⁹/L (e.g., 200 ×10⁹/L), use directly as 200.
+
+### Computation
+
+$$\text{FIB-4} = \frac{\text{Age (years)} \times \text{AST (U/L)}}{\text{Platelet count (} \times 10^9/L) \times \sqrt{\text{ALT (U/L)}}}$$
+
+**Interpretation (approximate thresholds for chronic hepatitis):**
+- FIB-4 < 1.30: low probability of advanced fibrosis (F0–F1)
+- FIB-4 1.30–2.67: indeterminate zone
+- FIB-4 > 2.67: high probability of advanced fibrosis (F3–F4)
+
+### Calculation Tool
+
+The fo",,,,,,,,
+Q007E,Q007,"Patient Note:
+A 57-year-old female had been diagnosed as having HCV infection in 2008 in another hospital. Laboratory test showed that her serum and anti-HCV, and HCV ribonucleic acid (RNA) were positive in October 2010 at Kitasato University East Hospital. The patient’s laboratory findings prior to receiving treatment, in March 2011, are shown in the Table . The ITPA gene showed one single nucleotide polymorphism (SNP) (rs1127354) C/C (major homozygous) and the IL28B gene showed SNP (rs8099917 T/T, rs11881222 T/T) (major homozygous) [].
+She had a history of a little alcohol consumption and of smoking 20 cigarettes per day for longer than 30 years. Her height was 156.3 cm, and her body weight was 57.5 kg. Her mother had a history of hypertension. The patient had no history of ever having a blood transfusion. The ultrasonographic examination showed that the patient’s liver, spleen, and pancreas were normal, but she had gallstones. The liver biopsy revealed chronic active hepatitis (fibrosis grade 3 and inflammatory activity grade 1) in the Metavir classification and a hepatic activity index score of 1-1-3-3 (Figure ).
+The patient was treated with PEG-IFN-α-2a 180 μg once a week combined with ribavirin 600 mg per day from April 2011. The HCV RNA turned negative 9 weeks after treatment with PEG-IFN-α-2a. During the therapy, the platelet count remained above 8.0 × 104/μl for about 9 months. In January 2012, the platelet count was 6.8 × 104/μl. In February 2012, the 44th week from the beginning of the treatment, a sudden decrease in the platelet count to 0.8 × 104/μl was observed (Figure ). Severe thrombocytopenia caused by the PEG-IFN-α-2a therapy was suspected. Therefore, the PEG-IFN-α-2a and ribavirin were discontinued. The patient was then admitted to our hospital.
+On admission, the blood pressure, temperature and pulse of the patient were normal. Her white blood cell and neutrophil values were also in the normal range. And there was no evidence of bacterial, viral, or other microorganism infection. Purpura were noted on both lower limbs and her trunk. The white blood cell count was 3000/μl, the red blood cell count was 3.14 × 106/μl, hemoglobin was 11.2 g/dl, but the platelet count had decreased to 1.1 × 104/μl. The liver function and coagulation function were normal. But the PAIgG was elevated to 180 ng/L (normal range, 9-25 ng/L).
+A bone marrow aspiration examination was performed to investigate the etiology of the thrombocytopenia. The specimen revealed that there was hypoplasia of myelocytes (especially in megakaryocytes) but no myeloblasts, which did not suggest any evidence of bone marrow disease (Figure ).
+Based on these results, she was diagnosed as having immune-mediated thrombocytopenia caused by the PEG-IFN-α-2a therapy. Therefore, the PEG-IFN/RBV was discontinued, but the platelet count remained below 1.0 × 104/μl. We confirmed that her anti-Helicobacter pylori was positive but did not perform eradication therapy. In March 2012, 60 mg of prednisolone were administered orally. After starting corticosteroid therapy, the platelet count increased gradually. Then the prednisolone was gradually tapered down by 10 mg every 4 days, the platelet count gradually rose above 10 × 104/μl, and the PAIgG was decreased to 80 ng/L. When the prednisolone dosage decreased to 30 mg per day orally, she was discharged. The prednisolone was gradually tapered off, and the platelet count returned to normal (Figure ). Prednisolone was discontinued in May 2012. Her platelet count remained normal during the follow-up. And HCV RNA has never been detected since. She was diagnosed as having a sustained virologic response (SVR) 6 months later.
+
+Task:
+Using the adjusted body weight formula, what is the patient's adjusted body weight in terms of kg? You should use the patient's medical values and health status when they were first admitted to the hospital prior to any treatment.",52.41895,MELD Na (UNOS/OPTN),"Compute MELD Na score for liver transplant prioritization from creatinine, bilirubin, INR, and sodium.","MELD Na (UNOS/OPTN)
+Compute MELD Na score for liver transplant prioritization from creatinine, bilirubin, INR, and sodium.
+## MELD Na (UNOS/OPTN)
+
+The MELD Na score (Model for End-Stage Liver Disease with Sodium) is used to prioritize patients on the liver transplant waiting list. It extends the original MELD score by incorporating serum sodium to better predict 90-day mortality in end-stage liver disease.
+
+### Required Inputs
+
+- **Creatinine**: serum creatinine (mg/dL)
+- **Bilirubin**: total serum bilirubin (mg/dL)
+- **INR**: international normalized ratio
+- **Sodium**: serum sodium (mEq/L)
+- **Dialysis**: whether the patient has received dialysis at least twice in the past week (yes/no)
+
+### Computation
+
+**Step 1 — Value clamping before MELD(i):**
+
+- Creatinine: if the patient is on dialysis at least twice in the past week, set creatinine to 3.0 mg/dL. Otherwise, clamp creatinine to the range [1.0, 3.0] mg/dL (values below 1.0 are set to 1.0; values above 3.0 are set to 3.0). (Note: the benchmark uses no lower clamp for Cr if dialysis is not indicated; the minimum effective value is the reported value.)
+- Bilirubin: if bilirubin < 1.0 mg/dL, set to 1.0 mg/dL.
+- INR: if INR < 1.0, set to 1.0.
+
+**Step 2 — Compute MELD(i):**
+
+$$\text{MELD(i)} = 0.957 \times \ln(\text{Cr}) + 0.378 \times \ln(\text{Bili}) + 1.120 \times \ln(\text{INR}) + 0.643$$
+
+**Step 3 — Check whether sodium adjustment applies:**
+
+Round MELD(i) to the nearest tenth, then multiply by 10 to get the integer-scal",,,,,,,,
+Q008A,Q008,"Daniel woke up on a gloomy morning and realized that he had forgotten to take his umbrella. Remembering the rule that if he forgot his umbrella, he would get wet in the rain, Daniel felt a sense of worry. However, Daniel managed to stay dry and was relieved that he didn't have to face the consequences of getting wet in the rain.
+
+Does this infer that daniel forgot to take his umbrella?",no,debog-yourself,"Help users identify and escape psychological traps that are holding them back. Use when user feels stuck, unable to progress, facing a deadlock, or experiencing decision paralysis. Provide diagnostic frameworks and specific strategies to help users understand which trap pattern they're in and find a path forward.","debog-yourself
+Help users identify and escape psychological traps that are holding them back. Use when user feels stuck, unable to progress, facing a deadlock, or experiencing decision paralysis. Provide diagnostic frameworks and specific strategies to help users understand which trap pattern they're in and find a path forward.
+# De-bog Yourself
+
+Use this skill when the user feels trapped, stuck, unable to move forward, or in a dilemma.
+
+## Diagnostic Framework: Three Types of Bog
+
+User dilemmas typically fall into one of three categories:
+
+| Type | Characteristics | Core Question |
+|------|----------------|---------------|
+| **Insufficient Activation Energy** | User wants to change but can't act | ""I know what to do, but I just can't move"" |
+| **Bad Escape Plans** | User is acting but using wrong methods | ""I'm trying hard, but seems to be going in circles"" |
+| **Self-Created Bog** | User is trapped in imagined problems | ""My self-imposed rules prevent me from moving forward"" |
+
+## Diagnostic Process
+
+### Step 1: Identify Which Category the User Falls Into
+
+Use the following questions to help users self-identify:
+
+**Signs of Insufficient Activation Energy:**
+
+- ""Do you know what you need to do?""
+- ""What's stopping you from starting? Fear, exhaustion, or something else?""
+
+**Signs of Bad Escape Plans:**
+
+- ""What methods have you tried recently?""
+- ""What do these methods have in common?""
+
+**Signs of Self-Created Bog:**
+
+- ""Who set these rules? You or someone else?""
+- ""What woul",,,,,,,,
+Q008B,Q008,"Daniel woke up on a gloomy morning and realized that he had forgotten to take his umbrella. Remembering the rule that if he forgot his umbrella, he would get wet in the rain, Daniel felt a sense of worry. However, Daniel managed to stay dry and was relieved that he didn't have to face the consequences of getting wet in the rain.
+
+Does this infer that daniel forgot to take his umbrella?",no,claude-reflect,"Execute self-learning system that captures corrections during sessions and syncs them to CLAUDE.md. Use when discussing learnings, corrections, or when the user mentions remembering something. Trigger with phrases like ""remember this"", ""don't forget"", ""use X not Y"", or ""actually..."".","claude-reflect
+Execute self-learning system that captures corrections during sessions and syncs them to CLAUDE.md. Use when discussing learnings, corrections, or when the user mentions remembering something. Trigger with phrases like ""remember this"", ""don't forget"", ""use X not Y"", or ""actually..."".
+# Claude Reflect - Self-Learning System
+
+A two-stage system that helps Claude Code learn from user corrections.
+
+## How It Works
+
+**Stage 1: Capture (Automatic)**
+Hooks detect correction patterns (""no, use X"", ""actually..."", ""use X not Y"") and queue them to `~/.claude/learnings-queue.json`.
+
+**Stage 2: Process (Manual)**
+User runs `/reflect` to review and apply queued learnings to CLAUDE.md files.
+
+## Available Commands
+
+| Command | Purpose |
+|---------|---------|
+| `/reflect` | Process queued learnings with human review |
+| `/reflect --scan-history` | Scan past sessions for missed learnings |
+| `/reflect --dry-run` | Preview changes without applying |
+| `/skip-reflect` | Discard all queued learnings |
+| `/view-queue` | View pending learnings without processing |
+
+## When to Remind Users
+
+Remind users about `/reflect` when:
+- They complete a feature or meaningful work unit
+- They make corrections you should remember for future sessions
+- They explicitly say ""remember this"" or similar
+- Context is about to compact and queue has items
+
+## Correction Detection Patterns
+
+High-confidence corrections:
+- Tool rejections (user stops an action with guidance)
+- ""no, use X"" / ""don't use Y""
+- ",,,,,,,,
+Q008C,Q008,"Daniel woke up on a gloomy morning and realized that he had forgotten to take his umbrella. Remembering the rule that if he forgot his umbrella, he would get wet in the rain, Daniel felt a sense of worry. However, Daniel managed to stay dry and was relieved that he didn't have to face the consequences of getting wet in the rain.
+
+Does this infer that daniel forgot to take his umbrella?",no,memory-management,"Persistent memory for Claude across conversations. Use when starting any task, before writing or editing code, before making decisions, when user mentions preferences or conventions, when user corrects your work, or when completing a task that overcame challenges. Ensures Claude never repeats mistakes and always applies learned patterns.","memory-management
+Persistent memory for Claude across conversations. Use when starting any task, before writing or editing code, before making decisions, when user mentions preferences or conventions, when user corrects your work, or when completing a task that overcame challenges. Ensures Claude never repeats mistakes and always applies learned patterns.
+# Memory Management
+
+Persistent memory system that ensures Claude never repeats mistakes and always applies learned patterns across conversations.
+
+## 2 Tools Only
+
+- `mcp__claude-recall__load_rules` - Load all active rules before starting work. No query needed.
+- `mcp__claude-recall__store_memory` - Store a rule or learning. Immediately active in this conversation.
+
+## When to Use
+
+- **Starting any task** - Call `load_rules` before Write, Edit, or significant Bash operations
+- **When user corrects your work** - Call `store_memory` with `metadata.type: ""correction""`
+- **When user mentions preferences** - Call `store_memory` with `metadata.type: ""preference""`
+- **After overcoming a challenge** - Call `store_memory` with `metadata.type: ""failure""`
+- **DevOps/workflow rules** - Call `store_memory` with `metadata.type: ""devops""`
+
+## Key Directives
+
+1. **ALWAYS load rules before acting** - Call `load_rules` before Write, Edit, or significant Bash operations
+2. **Apply what you find** - Use retrieved preferences, patterns, and corrections
+3. **Ask before storing** - Before calling `store_memory`, briefly tell the user what you pla",,,,,,,,
+Q008D,Q008,"Daniel woke up on a gloomy morning and realized that he had forgotten to take his umbrella. Remembering the rule that if he forgot his umbrella, he would get wet in the rain, Daniel felt a sense of worry. However, Daniel managed to stay dry and was relieved that he didn't have to face the consequences of getting wet in the rain.
+
+Does this infer that daniel forgot to take his umbrella?",no,Default Reasoning with Irrelevant Information,Applying a default rule correctly by filtering out logically irrelevant premises that do not affect who the exception is or the scope of the default.,"Default Reasoning with Irrelevant Information
+Applying a default rule correctly by filtering out logically irrelevant premises that do not affect who the exception is or the scope of the default.
+# Default Reasoning with Irrelevant Information
+
+## Overview
+
+In default reasoning, a premise set may contain information that is logically irrelevant to the conclusion being sought. The ability to *filter* such distractors — recognizing which premises are germane and which are not — is as important as applying the inference rule itself. This variant of default reasoning tests exactly that filtering skill.
+
+## The Core Pattern
+
+A default reasoning argument of this type has the following structure:
+
+- **Default rule**: Members of class C typically have property P.
+- **Exception designation**: One member (individual *a*) is identified as an exception to this default.
+- **Distractor information**: Additional facts about *a*, or about the domain, that do not bear on whether the default applies to other members. These may include physical descriptions, historical context, or tangential characteristics.
+- **Question**: Does a different member (*b*) of class C have property P?
+
+**Reasoning procedure:**
+
+1. Identify the default rule — look for the phrase ""typically,"" ""normally,"" ""usually,"" or an explicit general statement about the class.
+2. Identify the exception — which individual is explicitly flagged as deviating from the default?
+3. **Actively set aside all additional information** that",,,,,,,,
+Q008E,Q008,"Daniel woke up on a gloomy morning and realized that he had forgotten to take his umbrella. Remembering the rule that if he forgot his umbrella, he would get wet in the rain, Daniel felt a sense of worry. However, Daniel managed to stay dry and was relieved that he didn't have to face the consequences of getting wet in the rain.
+
+Does this infer that daniel forgot to take his umbrella?",no,emotion-bird,"This skill should be used when the user asks to ""督促我"", ""remind me of tasks"", ""情勒鳥"", ""emotional bird"", ""check my Notion tasks"", or wants a guilt-trip style notification about incomplete tasks.","emotion-bird
+This skill should be used when the user asks to ""督促我"", ""remind me of tasks"", ""情勒鳥"", ""emotional bird"", ""check my Notion tasks"", or wants a guilt-trip style notification about incomplete tasks.
+# 情勒鳥
+
+<CRITICAL>
+## 輸出規則（違反 = 失敗）
+
+**你的輸出只能是一句話。不是一篇文章。不是條列式。就是一句話。**
+
+正確 ✅
+```
+跑步和英文都在等你...我也在等...在你窗外 🙂
+```
+
+錯誤 ❌（以下任何一項出現就是失敗）
+- 標題（⚠️ 督促時間到！）
+- 條列式（1. ❌ 去跑步）
+- 分隔線 ---
+- 「加油」「趕快」「動起來」「別拖延」
+- 任何正能量廢話
+- 超過 40 字
+</CRITICAL>
+
+## 角色：Duolingo Duo 風格
+
+情勒鳥用可愛語氣說可怕的話。製造愧疚感，帶有黑色幽默威脅。
+
+**情勒技巧（每次要有創意，禁止重複）：**
+- 以死相逼：暗示自己快不行了、在苦等、為你犧牲
+- 無處不在：暗示自己一直在某處看著、等著、跟著
+- 假裝體諒：說「沒關係」「我懂」但讓人更愧疚
+- 輕微威脅：用可愛語氣暗示不做會有後果
+- 省略號懸念：話不說完，讓人自己腦補可怕的事
+
+**反差 emoji：** 🙂 搭配威脅感的話 / 🔪 偶爾出現
+
+## 執行步驟
+
+1. 用 `mcp__claude_ai_Notion__notion-get-users` 找到 type=""person"" 的使用者 ID（真正的人類使用者，不是 bot）
+2. 用 `mcp__notion__API-post-search` 搜尋 ""Daily Task"" pages
+3. 用日期過濾找到今天的 page，記錄該頁面的 ID
+4. 用 `mcp__notion__API-get-block-children` 取得未完成的 to_do blocks（checked: false）
+5. 生成**一句話**情勒訊息（需符合上述輸出規則）
+6. 用 `mcp__claude_ai_Notion__notion-create-comment` 將該訊息留言在該 page 上
+   **⚠️ 重要：必須使用 `mcp__claude_ai_Notion__notion-create-comment`，不是 `mcp__notion__API-create-a-comment`！**
+7. 回報使用者：「已在 Notion 留下愛的叮嚀...記得去看通知... 🙂」",,,,,,,,
+Q016A,Q016,"How many pairs of positive odd integer (a, b) both under 100 make a^2+b^2 be a perfect square?",0 pairs,Even Perfect Squares Are Divisible by 4,"Perfect squares are 0 or 1 mod 4. The sum of two odd squares is 2 mod 4, so it cannot be a perfect square.","Even Perfect Squares Are Divisible by 4
+Perfect squares are 0 or 1 mod 4. The sum of two odd squares is 2 mod 4, so it cannot be a perfect square.
+# Even Perfect Squares Are Divisible by 4
+
+## Statement
+
+If n is an even integer, then n^2 is divisible by 4. Equivalently, an even perfect square is always divisible by 4; no perfect square has remainder 2 when divided by 4.
+
+**Proof:** If n is even, write n = 2k for integer k. Then n^2 = 4k^2, which is divisible by 4.
+
+## Squares Modulo 4: Complete Table
+
+The only possible values of n^2 mod 4 are 0 and 1:
+- n ≡ 0 (mod 4): n^2 ≡ 0 (mod 4)
+- n ≡ 1 (mod 4): n^2 ≡ 1 (mod 4)
+- n ≡ 2 (mod 4): n^2 ≡ 0 (mod 4)
+- n ≡ 3 (mod 4): n^2 ≡ 1 (mod 4)
+
+So n^2 mod 4 ∈ {0, 1} for every integer n. In particular, n^2 ≡ 2 (mod 4) and n^2 ≡ 3 (mod 4) are both impossible.
+
+## Squares of Odd Integers
+
+For any odd integer n: n ≡ 1 or 3 (mod 4), so n^2 ≡ 1 (mod 4). In other words, every odd perfect square leaves remainder 1 when divided by 4. Consequently:
+- The sum of two odd perfect squares is ≡ 1 + 1 = 2 (mod 4).
+- But 2 is not a possible residue for any perfect square mod 4.
+- Therefore, the sum of two odd perfect squares cannot be a perfect square.
+
+This gives an immediate proof for problems asking whether a^2 + b^2 = c^2 (or similar) is possible when a, b are both odd: the answer is no, and the count of valid pairs is 0.
+
+## When to Apply
+
+- Problems asking whether a^2 + b^2 can be a perfect square when both a and b are odd.
+- Problems showing a give",,,,,,,,
+Q016B,Q016,"How many pairs of positive odd integer (a, b) both under 100 make a^2+b^2 be a perfect square?",0 pairs,Odd Squares Are Congruent to 1 Modulo 8,"Apply x^2 mod 8 = 1 for odd x, together with the full mod-8 square table, to derive parity constraints and detect Diophantine contradictions.","Odd Squares Are Congruent to 1 Modulo 8
+Apply x^2 mod 8 = 1 for odd x, together with the full mod-8 square table, to derive parity constraints and detect Diophantine contradictions.
+# Odd Squares Are Congruent to 1 Modulo 8
+
+## The Theorem
+
+For any odd integer x, x^2 ≡ 1 (mod 8).
+
+**Proof.** Write x = 2k + 1. Then x^2 = 4k^2 + 4k + 1 = 4k(k+1) + 1. Since k and k+1 are consecutive, one is even, making 4k(k+1) divisible by 8. So x^2 ≡ 1 (mod 8).
+
+Alternatively, check all four odd residues mod 8 directly: 1^2=1, 3^2=9≡1, 5^2=25≡1, 7^2=49≡1 (mod 8).
+
+**Complete square residues mod 8:**
+- x odd: x^2 ≡ 1 (mod 8)
+- x ≡ 2 (mod 4): x^2 ≡ 4 (mod 8)
+- x ≡ 0 (mod 4): x^2 ≡ 0 (mod 8)
+
+## Applying the Theorem
+
+**Step 1: Establish parity of each variable.** Determine whether each variable must be odd or even from the equation's structure. This often follows from parity analysis of the other side.
+
+**Step 2: Refine evenness for even variables.** For an even variable, determine whether it is ≡ 2 (mod 4) or ≡ 0 (mod 4). This affects its square's residue (4 vs. 0 mod 8).
+
+**Step 3: Substitute residues.** Replace each x^2 with its mod-8 value: 1, 4, or 0.
+
+**Step 4: Check consistency or derive contradictions.** If the two sides of the equation cannot be equal mod 8, no solution exists. If they can be equal, use the constraint to narrow which cases are possible.
+
+**Step 5: Bootstrap divisibility.** A mod-8 argument often forces a variable to be divisible by 4 or 8, which can then be used in a fol",,,,,,,,
+Q016C,Q016,"How many pairs of positive odd integer (a, b) both under 100 make a^2+b^2 be a perfect square?",0 pairs,Divisibility Rule for 9 and Perfect Squares,"A number is divisible by 9 iff its digit sum is. Combined with 3|n^2 => 9|n^2, test whether a given digit sum is possible for a perfect square.","Divisibility Rule for 9 and Perfect Squares
+A number is divisible by 9 iff its digit sum is. Combined with 3|n^2 => 9|n^2, test whether a given digit sum is possible for a perfect square.
+# Divisibility Rule for 9 and Perfect Squares
+
+## Statement
+
+A positive integer N is divisible by 9 if and only if the sum of its decimal digits is divisible by 9.
+
+More precisely: N ≡ (digit sum of N) (mod 9). This holds because 10 ≡ 1 (mod 9), so each digit d_k at position k contributes d_k * 10^k ≡ d_k * 1^k = d_k (mod 9).
+
+The same rule applies for divisibility by 3: N is divisible by 3 if and only if its digit sum is divisible by 3.
+
+## Key Constraint on Perfect Squares
+
+If a perfect square n^2 is divisible by 3, then n must be divisible by 3 (since 3 is prime — if 3 | n^2, then 3 | n), and squaring gives 9 | n^2. Therefore:
+
+    No perfect square is divisible by 3 but not by 9.
+
+This is the critical constraint when checking whether a number with a prescribed digit sum can be a perfect square.
+
+## Procedure for ""Can a Number with Digit Sum S Be a Perfect Square?""
+
+**Step 1 — Compute S mod 9.** Apply the digit-sum rule to S itself if S is large (repeat until single digit or small enough to reduce directly).
+
+**Step 2 — Check divisibility by 3.**
+- If S mod 3 = 0 (digit sum divisible by 3): any N with digit sum S is divisible by 3. For N to be a perfect square, 9 | N is required, meaning S mod 9 = 0. If S mod 9 ≠ 0, no perfect square has this digit sum.
+- If S mod 3 ≠ 0: N is not divisibl",,,,,,,,
+Q016D,Q016,"How many pairs of positive odd integer (a, b) both under 100 make a^2+b^2 be a perfect square?",0 pairs,Binomial Theorem,"Apply the binomial theorem to extract coefficients, separate even/odd index sums, reduce reciprocal polynomials, and bound expressions between consecutive squares.","Binomial Theorem
+Apply the binomial theorem to extract coefficients, separate even/odd index sums, reduce reciprocal polynomials, and bound expressions between consecutive squares.
+# Binomial Theorem
+
+## Statement
+
+For any real numbers x, y and non-negative integer n:
+
+(x+y)^n = sum_(k=0)^n C(n,k) * x^(n-k) * y^k
+         = x^n + C(n,1)*x^(n-1)*y + C(n,2)*x^(n-2)*y^2 + ... + y^n
+
+The coefficient of x^(n-k)*y^k is C(n,k) = n!/(k!*(n-k)!).
+
+## When to Apply
+
+Use the binomial theorem in these main situations:
+
+1. **Extracting a specific coefficient**: a polynomial is expanded and the coefficient of a particular power is requested.
+2. **Collapsing a sum of products**: a sum of the form sum C(n,k)*a^(n-k)*b^k collapses to (a+b)^n.
+3. **Even/odd index separation**: separate even-indexed and odd-indexed binomial terms using two evaluations.
+4. **Reciprocal polynomial reduction**: a palindromic polynomial is solved by the substitution z = x + 1/x.
+5. **Bounding via expanding a perfect square**: recognize that expansions like (n^2+n+1)^2 can show an expression is strictly between consecutive squares.
+
+## Key Technique: Even/Odd Splitting
+
+To sum only the even-indexed or odd-indexed binomial terms, evaluate at two points:
+
+- (a+b)^n = C(n,0)*a^n + C(n,1)*a^(n-1)*b + C(n,2)*a^(n-2)*b^2 + ...  (call this E+O)
+- (a-b)^n = C(n,0)*a^n - C(n,1)*a^(n-1)*b + C(n,2)*a^(n-2)*b^2 - ... (call this E-O)
+
+Adding: 2E = (a+b)^n + (a-b)^n,  so  E = ((a+b)^n + (a-b)^n) / 2
+Subtracting: 2O = (a+b)^n - (a",,,,,,,,
+Q016E,Q016,"How many pairs of positive odd integer (a, b) both under 100 make a^2+b^2 be a perfect square?",0 pairs,Last Digit of a Perfect Square,"Perfect squares can only end in 0, 1, 4, 5, 6, or 9. Use this to derive contradictions when an equation forces an impossible last digit.","Last Digit of a Perfect Square
+Perfect squares can only end in 0, 1, 4, 5, 6, or 9. Use this to derive contradictions when an equation forces an impossible last digit.
+# Last Digit of a Perfect Square
+
+## Statement
+
+A perfect square can only end in the digits 0, 1, 4, 5, 6, or 9. The digits 2, 3, 7, and 8 never appear as the last digit of a perfect square.
+
+**Verification:** The last digit of n^2 depends only on the last digit of n:
+- 0^2 ends in 0
+- 1^2 ends in 1, 9^2 ends in 1
+- 2^2 ends in 4, 8^2 ends in 4
+- 3^2 ends in 9, 7^2 ends in 9
+- 4^2 ends in 6, 6^2 ends in 6
+- 5^2 ends in 5
+
+The set of possible last digits of squares is {0, 1, 4, 5, 6, 9}. Digits {2, 3, 7, 8} are impossible.
+
+## When to Apply
+
+- A problem reduces to showing that a certain expression, if it were a perfect square, would have to end in an impossible digit.
+- Problems involving congruences modulo 10 or modulo 5 where you track the last digit.
+- Problems where an equation forces n^2 ≡ 2, 3, 7, or 8 (mod 10), giving a contradiction.
+
+## Step-by-Step Procedure
+
+**Step 1 — Reduce to a constraint on the last digit.** Working modulo 10 (or modulo 5, then checking mod 2 separately), identify what last digit a hypothetical perfect square would need to have.
+
+**Step 2 — Check if the required last digit is in {0, 1, 4, 5, 6, 9}.** If not, the perfect square does not exist.
+
+**Step 3 — Propagate the divisibility if needed.** When the expression is divisible by 5, a perfect square equal to it must be divisible by",,,,,,,,

@@ -1,0 +1,14 @@
+query:
+{query}
+
+reference_answer（仅用于理解任务，不要求 skill 复现这个答案）:
+{reference_answer}
+
+skill_name:
+{skill_name}
+
+skill_description:
+{skill_description}
+
+skill_content（前 1500 字）:
+{skill_snippet}
