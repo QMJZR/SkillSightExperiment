@@ -1,0 +1,356 @@
+{
+  "config": {
+    "benchmark": "sra",
+    "repo_root": "/root/skillret/repo/third_party/SR-Agents-main",
+    "skillrouter_root": "SkillRouter-Eval-Core",
+    "skillrouter_tiers": [
+      "easy",
+      "hard"
+    ],
+    "include_generic_only": false,
+    "include_excluded": false,
+    "encoder_preset": "qwen3",
+    "model_path": "/root/.cache/huggingface/hub/models--Qwen--Qwen3-Embedding-0.6B/snapshots/97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3/",
+    "device": "cuda:0",
+    "datasets": [
+      "theoremqa",
+      "logicbench",
+      "toolqa",
+      "medcalcbench",
+      "champ",
+      "bigcodebench"
+    ],
+    "top_k": [
+      1,
+      5,
+      10
+    ],
+    "primary_k": 10,
+    "doc_batch": 4,
+    "query_batch": 64,
+    "score_batch": 64,
+    "max_seq_length": 8192,
+    "max_tokens_per_doc": 200,
+    "lexical_beta": 1.0,
+    "cache_dir": "/root/skillret/cache",
+    "cache_only": false,
+    "output_dir": "/root/skillret/runs/e0_skillsight_v100",
+    "output_json": null,
+    "variants": [
+      "skillsight"
+    ],
+    "candidate_k": 300
+  },
+  "method": {
+    "name": "SkillSight",
+    "lexical_beta": 1.0,
+    "min_generic_df": 2,
+    "max_tokens_per_doc": 200
+  },
+  "variants": [
+    "skillsight"
+  ],
+  "top_k": [
+    1,
+    5,
+    10
+  ],
+  "primary_k": 10,
+  "per_category": {
+    "theoremqa": {
+      "skillsight": {
+        "n": 747,
+        "n_gold_oov": 0,
+        "search_seconds": 2.8153260713,
+        "queries_per_second": 265.3333862828,
+        "topk": {
+          "1": {
+            "recall": 0.7844712182,
+            "hit": 0.7844712182,
+            "mrr": 0.7844712182
+          },
+          "5": {
+            "recall": 0.9330655957,
+            "hit": 0.9330655957,
+            "mrr": 0.8455823293
+          },
+          "10": {
+            "recall": 0.9611780455,
+            "hit": 0.9611780455,
+            "mrr": 0.849599456
+          }
+        }
+      }
+    },
+    "logicbench": {
+      "skillsight": {
+        "n": 760,
+        "n_gold_oov": 0,
+        "search_seconds": 3.6723408561,
+        "queries_per_second": 206.9524670478,
+        "topk": {
+          "1": {
+            "recall": 0.2026315789,
+            "hit": 0.2026315789,
+            "mrr": 0.2026315789
+          },
+          "5": {
+            "recall": 0.5039473684,
+            "hit": 0.5039473684,
+            "mrr": 0.306754386
+          },
+          "10": {
+            "recall": 0.6921052632,
+            "hit": 0.6921052632,
+            "mrr": 0.3323772974
+          }
+        }
+      }
+    },
+    "toolqa": {
+      "skillsight": {
+        "n": 1430,
+        "n_gold_oov": 0,
+        "search_seconds": 4.7105927438,
+        "queries_per_second": 303.5711380218,
+        "topk": {
+          "1": {
+            "recall": 0.6,
+            "hit": 0.6,
+            "mrr": 0.6
+          },
+          "5": {
+            "recall": 0.8783216783,
+            "hit": 0.8783216783,
+            "mrr": 0.7247785548
+          },
+          "10": {
+            "recall": 0.9153846154,
+            "hit": 0.9153846154,
+            "mrr": 0.7298884449
+          }
+        }
+      }
+    },
+    "medcalcbench": {
+      "skillsight": {
+        "n": 1100,
+        "n_gold_oov": 0,
+        "search_seconds": 6.7329663838,
+        "queries_per_second": 163.3752401685,
+        "topk": {
+          "1": {
+            "recall": 0.8672727273,
+            "hit": 0.8672727273,
+            "mrr": 0.8672727273
+          },
+          "5": {
+            "recall": 0.9763636364,
+            "hit": 0.9763636364,
+            "mrr": 0.9125606061
+          },
+          "10": {
+            "recall": 0.99,
+            "hit": 0.99,
+            "mrr": 0.9143632756
+          }
+        }
+      }
+    },
+    "champ": {
+      "skillsight": {
+        "n": 223,
+        "n_gold_oov": 0,
+        "search_seconds": 0.8456061699,
+        "queries_per_second": 263.7161458121,
+        "topk": {
+          "1": {
+            "recall": 0.2511210762,
+            "hit": 0.3677130045,
+            "mrr": 0.3677130045
+          },
+          "5": {
+            "recall": 0.5044843049,
+            "hit": 0.6367713004,
+            "mrr": 0.4635276532
+          },
+          "10": {
+            "recall": 0.5898355755,
+            "hit": 0.7130044843,
+            "mrr": 0.4750498256
+          }
+        }
+      }
+    },
+    "bigcodebench": {
+      "skillsight": {
+        "n": 1140,
+        "n_gold_oov": 0,
+        "search_seconds": 4.7825981828,
+        "queries_per_second": 238.3641603223,
+        "topk": {
+          "1": {
+            "recall": 0.2842982456,
+            "hit": 0.7377192982,
+            "mrr": 0.7377192982
+          },
+          "5": {
+            "recall": 0.6622953216,
+            "hit": 0.9570175439,
+            "mrr": 0.8272953216
+          },
+          "10": {
+            "recall": 0.7668421053,
+            "hit": 0.9877192982,
+            "mrr": 0.8316381231
+          }
+        }
+      }
+    }
+  },
+  "overall": {
+    "macro": {
+      "skillsight": {
+        "num_categories": 6,
+        "topk": {
+          "1": {
+            "recall": 0.498299141,
+            "hit": 0.5933013045,
+            "mrr": 0.5933013045
+          },
+          "5": {
+            "recall": 0.7430796509,
+            "hit": 0.8142478538,
+            "mrr": 0.6800831418
+          },
+          "10": {
+            "recall": 0.8192242675,
+            "hit": 0.8765652844,
+            "mrr": 0.6888194038
+          }
+        }
+      }
+    },
+    "micro": {
+      "skillsight": {
+        "n": 5400,
+        "n_gold_oov": 0,
+        "search_seconds": 23.5594304077,
+        "queries_per_second": 229.2075787297,
+        "avg_latency_ms": 4.3628574829,
+        "topk": {
+          "1": {
+            "recall": 0.5429814815,
+            "hit": 0.6435185185,
+            "mrr": 0.6435185185
+          },
+          "5": {
+            "recall": 0.792132716,
+            "hit": 0.8598148148,
+            "mrr": 0.7317623457
+          },
+          "10": {
+            "recall": 0.860691358,
+            "hit": 0.9124074074,
+            "mrr": 0.7390372575
+          }
+        }
+      }
+    }
+  },
+  "summary_tables": {
+    "skillsight": [
+      {
+        "dataset": "theoremqa",
+        "n": 747,
+        "R@1": 0.7844712182,
+        "R@5": 0.9330655957,
+        "R@10": 0.9611780455,
+        "H@1": 0.7844712182,
+        "H@5": 0.9330655957,
+        "H@10": 0.9611780455,
+        "MRR@1": 0.7844712182,
+        "MRR@5": 0.8455823293,
+        "MRR@10": 0.849599456
+      },
+      {
+        "dataset": "logicbench",
+        "n": 760,
+        "R@1": 0.2026315789,
+        "R@5": 0.5039473684,
+        "R@10": 0.6921052632,
+        "H@1": 0.2026315789,
+        "H@5": 0.5039473684,
+        "H@10": 0.6921052632,
+        "MRR@1": 0.2026315789,
+        "MRR@5": 0.306754386,
+        "MRR@10": 0.3323772974
+      },
+      {
+        "dataset": "toolqa",
+        "n": 1430,
+        "R@1": 0.6,
+        "R@5": 0.8783216783,
+        "R@10": 0.9153846154,
+        "H@1": 0.6,
+        "H@5": 0.8783216783,
+        "H@10": 0.9153846154,
+        "MRR@1": 0.6,
+        "MRR@5": 0.7247785548,
+        "MRR@10": 0.7298884449
+      },
+      {
+        "dataset": "medcalcbench",
+        "n": 1100,
+        "R@1": 0.8672727273,
+        "R@5": 0.9763636364,
+        "R@10": 0.99,
+        "H@1": 0.8672727273,
+        "H@5": 0.9763636364,
+        "H@10": 0.99,
+        "MRR@1": 0.8672727273,
+        "MRR@5": 0.9125606061,
+        "MRR@10": 0.9143632756
+      },
+      {
+        "dataset": "champ",
+        "n": 223,
+        "R@1": 0.2511210762,
+        "R@5": 0.5044843049,
+        "R@10": 0.5898355755,
+        "H@1": 0.3677130045,
+        "H@5": 0.6367713004,
+        "H@10": 0.7130044843,
+        "MRR@1": 0.3677130045,
+        "MRR@5": 0.4635276532,
+        "MRR@10": 0.4750498256
+      },
+      {
+        "dataset": "bigcodebench",
+        "n": 1140,
+        "R@1": 0.2842982456,
+        "R@5": 0.6622953216,
+        "R@10": 0.7668421053,
+        "H@1": 0.7377192982,
+        "H@5": 0.9570175439,
+        "H@10": 0.9877192982,
+        "MRR@1": 0.7377192982,
+        "MRR@5": 0.8272953216,
+        "MRR@10": 0.8316381231
+      },
+      {
+        "dataset": "overall",
+        "n": 5400,
+        "R@1": 0.5429814815,
+        "R@5": 0.792132716,
+        "R@10": 0.860691358,
+        "H@1": 0.6435185185,
+        "H@5": 0.8598148148,
+        "H@10": 0.9124074074,
+        "MRR@1": 0.6435185185,
+        "MRR@5": 0.7317623457,
+        "MRR@10": 0.7390372575
+      }
+    ]
+  }
+}

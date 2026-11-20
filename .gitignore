@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+cache/
+models/
+*.npy
+*.npz
+!results/pilot/dense_top100.npz
+*.zip
+*.jsonl
+!results/pilot/*.jsonl.gz
+runs/
+transfer.zip
+*.log
+!logs/*.log
+.DS_Store

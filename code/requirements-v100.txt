@@ -1,0 +1,8 @@
+# V100 环境依赖。torch 需要从 PyTorch 官方 cu124 索引安装。
+torch==2.6.0+cu124
+numpy==2.4.6
+sentence-transformers==5.5.1
+xformers==0.0.29.post2
+bm25s==0.3.16
+openpyxl>=3.1
+tqdm

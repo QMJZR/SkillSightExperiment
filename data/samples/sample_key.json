@@ -1,0 +1,379 @@
+{
+  "seed": 20261120,
+  "pilot": {
+    "theoremqa": {
+      "fail": [
+        "theoremqa_00367",
+        "theoremqa_00197",
+        "theoremqa_00060",
+        "theoremqa_00514",
+        "theoremqa_00041",
+        "theoremqa_00592",
+        "theoremqa_00458",
+        "theoremqa_00359",
+        "theoremqa_00421",
+        "theoremqa_00177"
+      ],
+      "success": [
+        "theoremqa_00158",
+        "theoremqa_00274",
+        "theoremqa_00595",
+        "theoremqa_00263"
+      ]
+    },
+    "logicbench": {
+      "fail": [
+        "logicbench_00118",
+        "logicbench_00174",
+        "logicbench_00759",
+        "logicbench_00560",
+        "logicbench_00512",
+        "logicbench_00255",
+        "logicbench_00614",
+        "logicbench_00541",
+        "logicbench_00720",
+        "logicbench_00520"
+      ],
+      "success": [
+        "logicbench_00659",
+        "logicbench_00622",
+        "logicbench_00130",
+        "logicbench_00236"
+      ]
+    },
+    "medcalcbench": {
+      "fail": [
+        "medcalcbench_00777",
+        "medcalcbench_00740",
+        "medcalcbench_00763",
+        "medcalcbench_00808",
+        "medcalcbench_00764",
+        "medcalcbench_00772",
+        "medcalcbench_00092",
+        "medcalcbench_00091",
+        "medcalcbench_00099",
+        "medcalcbench_00071",
+        "medcalcbench_00064",
+        "medcalcbench_00090",
+        "medcalcbench_00175",
+        "medcalcbench_00801"
+      ],
+      "success": [
+        "medcalcbench_00672",
+        "medcalcbench_00447",
+        "medcalcbench_00985",
+        "medcalcbench_00347",
+        "medcalcbench_00454",
+        "medcalcbench_00353"
+      ]
+    },
+    "toolqa": {
+      "fail": [
+        "toolqa_01014",
+        "toolqa_00633",
+        "toolqa_00054",
+        "toolqa_00311",
+        "toolqa_00658",
+        "toolqa_01366",
+        "toolqa_00261",
+        "toolqa_00635",
+        "toolqa_01339",
+        "toolqa_00397",
+        "toolqa_00142",
+        "toolqa_01320",
+        "toolqa_01181",
+        "toolqa_01006",
+        "toolqa_01296",
+        "toolqa_01161",
+        "toolqa_00330",
+        "toolqa_01154"
+      ],
+      "success": [
+        "toolqa_00413",
+        "toolqa_00708",
+        "toolqa_00697",
+        "toolqa_00717",
+        "toolqa_01093",
+        "toolqa_00781",
+        "toolqa_00934",
+        "toolqa_00576"
+      ]
+    },
+    "bigcodebench": {
+      "fail": [
+        "bigcodebench_00987",
+        "bigcodebench_00056",
+        "bigcodebench_00204",
+        "bigcodebench_00643",
+        "bigcodebench_00617",
+        "bigcodebench_00182",
+        "bigcodebench_00701",
+        "bigcodebench_00628",
+        "bigcodebench_00927",
+        "bigcodebench_00257",
+        "bigcodebench_00986",
+        "bigcodebench_00072",
+        "bigcodebench_00502",
+        "bigcodebench_00743",
+        "bigcodebench_00165"
+      ],
+      "success": [
+        "bigcodebench_00117",
+        "bigcodebench_00268",
+        "bigcodebench_00112",
+        "bigcodebench_00632",
+        "bigcodebench_00176",
+        "bigcodebench_00081"
+      ]
+    },
+    "champ": {
+      "fail": [
+        "champ_00009",
+        "champ_00210",
+        "champ_00248",
+        "champ_00208"
+      ],
+      "success": [
+        "champ_00139"
+      ]
+    }
+  },
+  "validation": {
+    "theoremqa": {
+      "fail": [
+        "theoremqa_00605",
+        "theoremqa_00463",
+        "theoremqa_00060",
+        "theoremqa_00132",
+        "theoremqa_00160",
+        "theoremqa_00523",
+        "theoremqa_00177",
+        "theoremqa_00617",
+        "theoremqa_00266",
+        "theoremqa_00427",
+        "theoremqa_00349",
+        "theoremqa_00585",
+        "theoremqa_00161",
+        "theoremqa_00197",
+        "theoremqa_00252",
+        "theoremqa_00367",
+        "theoremqa_00143",
+        "theoremqa_00264",
+        "theoremqa_00507",
+        "theoremqa_00711",
+        "theoremqa_00729",
+        "theoremqa_00249"
+      ],
+      "success": [
+        "theoremqa_00317",
+        "theoremqa_00360",
+        "theoremqa_00654",
+        "theoremqa_00559",
+        "theoremqa_00582",
+        "theoremqa_00616"
+      ]
+    },
+    "logicbench": {
+      "fail": [
+        "logicbench_00379",
+        "logicbench_00094",
+        "logicbench_00503",
+        "logicbench_00203",
+        "logicbench_00341",
+        "logicbench_00492",
+        "logicbench_00383",
+        "logicbench_00537",
+        "logicbench_00426",
+        "logicbench_00734",
+        "logicbench_00586",
+        "logicbench_00272",
+        "logicbench_00373",
+        "logicbench_00252",
+        "logicbench_00362",
+        "logicbench_00536",
+        "logicbench_00756",
+        "logicbench_00124",
+        "logicbench_00032",
+        "logicbench_00504",
+        "logicbench_00653",
+        "logicbench_00597"
+      ],
+      "success": [
+        "logicbench_00659",
+        "logicbench_00136",
+        "logicbench_00630",
+        "logicbench_00090",
+        "logicbench_00632",
+        "logicbench_00413"
+      ]
+    },
+    "medcalcbench": {
+      "fail": [
+        "medcalcbench_00808",
+        "medcalcbench_00763",
+        "medcalcbench_00091",
+        "medcalcbench_00332",
+        "medcalcbench_00090",
+        "medcalcbench_00801",
+        "medcalcbench_00071",
+        "medcalcbench_00062",
+        "medcalcbench_00092",
+        "medcalcbench_00788",
+        "medcalcbench_00740",
+        "medcalcbench_00064",
+        "medcalcbench_00175",
+        "medcalcbench_00772",
+        "medcalcbench_00777",
+        "medcalcbench_00320",
+        "medcalcbench_00764",
+        "medcalcbench_00099"
+      ],
+      "success": [
+        "medcalcbench_00449",
+        "medcalcbench_00715",
+        "medcalcbench_00595",
+        "medcalcbench_01099",
+        "medcalcbench_00122",
+        "medcalcbench_00384",
+        "medcalcbench_00614",
+        "medcalcbench_00815",
+        "medcalcbench_00264",
+        "medcalcbench_00979",
+        "medcalcbench_00528",
+        "medcalcbench_00333",
+        "medcalcbench_01020",
+        "medcalcbench_00855",
+        "medcalcbench_00254",
+        "medcalcbench_00025",
+        "medcalcbench_00664",
+        "medcalcbench_01092",
+        "medcalcbench_00467",
+        "medcalcbench_00304",
+        "medcalcbench_00419",
+        "medcalcbench_00055",
+        "medcalcbench_00357"
+      ]
+    },
+    "toolqa": {
+      "fail": [
+        "toolqa_01236",
+        "toolqa_01054",
+        "toolqa_00885",
+        "toolqa_01076",
+        "toolqa_00011",
+        "toolqa_01262",
+        "toolqa_00050",
+        "toolqa_01187",
+        "toolqa_01023",
+        "toolqa_01389",
+        "toolqa_00639",
+        "toolqa_01210",
+        "toolqa_00643",
+        "toolqa_00061",
+        "toolqa_01346",
+        "toolqa_00344",
+        "toolqa_00377",
+        "toolqa_00166",
+        "toolqa_01343",
+        "toolqa_01283",
+        "toolqa_01411",
+        "toolqa_00362",
+        "toolqa_00386",
+        "toolqa_01288",
+        "toolqa_00658",
+        "toolqa_01158",
+        "toolqa_01046",
+        "toolqa_00299",
+        "toolqa_01245",
+        "toolqa_00367",
+        "toolqa_01089",
+        "toolqa_00054",
+        "toolqa_00173",
+        "toolqa_01074",
+        "toolqa_01226",
+        "toolqa_01211",
+        "toolqa_01258",
+        "toolqa_01174",
+        "toolqa_00976",
+        "toolqa_01056",
+        "toolqa_00348",
+        "toolqa_00756"
+      ],
+      "success": [
+        "toolqa_00806",
+        "toolqa_00104",
+        "toolqa_00678",
+        "toolqa_00590",
+        "toolqa_00893",
+        "toolqa_01202",
+        "toolqa_01163",
+        "toolqa_00959",
+        "toolqa_00963",
+        "toolqa_00515",
+        "toolqa_00450"
+      ]
+    },
+    "bigcodebench": {
+      "fail": [
+        "bigcodebench_00267",
+        "bigcodebench_00347",
+        "bigcodebench_00642",
+        "bigcodebench_00628",
+        "bigcodebench_00617",
+        "bigcodebench_00891",
+        "bigcodebench_01137",
+        "bigcodebench_01043",
+        "bigcodebench_00713",
+        "bigcodebench_00495",
+        "bigcodebench_00334",
+        "bigcodebench_00529",
+        "bigcodebench_00408",
+        "bigcodebench_00072",
+        "bigcodebench_01071",
+        "bigcodebench_00719",
+        "bigcodebench_00735",
+        "bigcodebench_00770",
+        "bigcodebench_01135",
+        "bigcodebench_00361",
+        "bigcodebench_00092",
+        "bigcodebench_00728",
+        "bigcodebench_00071",
+        "bigcodebench_00199",
+        "bigcodebench_00537",
+        "bigcodebench_00422",
+        "bigcodebench_00502",
+        "bigcodebench_01017",
+        "bigcodebench_00121",
+        "bigcodebench_00007",
+        "bigcodebench_00611",
+        "bigcodebench_00776",
+        "bigcodebench_00999",
+        "bigcodebench_00052"
+      ],
+      "success": [
+        "bigcodebench_00481",
+        "bigcodebench_00708",
+        "bigcodebench_01113",
+        "bigcodebench_00079",
+        "bigcodebench_00119",
+        "bigcodebench_01130",
+        "bigcodebench_00817",
+        "bigcodebench_00413"
+      ]
+    },
+    "champ": {
+      "fail": [
+        "champ_00036",
+        "champ_00131",
+        "champ_00233",
+        "champ_00023",
+        "champ_00227",
+        "champ_00264"
+      ],
+      "success": [
+        "champ_00127",
+        "champ_00120"
+      ]
+    }
+  }
+}

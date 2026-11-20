@@ -1,0 +1,84 @@
+diff --git a/encoder.py b/encoder.py
+index 398014a..48ffcb1 100644
+--- a/encoder.py
++++ b/encoder.py
+@@ -17,10 +17,49 @@ SKILLROUTER_QUERY_INSTRUCTION = (
+ )
+ 
+ 
++def _cuda_dtype(device: str) -> torch.dtype:
++    """Use BF16 on Ampere and newer; V100 (SM 7.0) only has usable FP16."""
++    if not device.startswith("cuda"):
++        return torch.float32
++    if not torch.cuda.is_available():
++        return torch.float32
++    major, _ = torch.cuda.get_device_capability()
++    return torch.bfloat16 if major >= 8 else torch.float16
++
++
++def _configure_sdpa(device: str) -> None:
++    """Prefer the memory-efficient SDPA kernel on pre-Ampere GPUs.
++
++    PyTorch falls back to the math kernel for head_dim=128 on SM 7.0 unless the
++    memory-efficient backend is selected explicitly. The math kernel materialises
++    the full attention matrix and OOMs at 8k tokens.
++    """
++    if not device.startswith("cuda") or not torch.cuda.is_available():
++        return
++    major, _ = torch.cuda.get_device_capability()
++    if major >= 8:
++        return
++    try:
++        torch.backends.cuda.enable_math_sdp(False)
++        torch.backends.cuda.enable_flash_sdp(False)
++        torch.backends.cuda.enable_mem_efficient_sdp(True)
++    except Exception as exc:
++        print(f"[encoder] cannot force memory-efficient SDPA: {exc}", flush=True)
++    # Qwen3 uses GQA. On SM 7.0 the fused kernel rejects 16 query / 8 KV heads,
++    # so make transformers expand the KV heads before calling SDPA.
++    try:
++        from transformers.integrations import sdpa_attention
++
++        sdpa_attention.use_gqa_in_sdpa = lambda attention_mask, key: False
++    except Exception as exc:
++        print(f"[encoder] cannot disable SDPA GQA path: {exc}", flush=True)
++
++
+ class DenseEncoder:
+     def __init__(self, model_path: str, device: str = "cuda:0", max_seq_length: int = 4096):
+         self.device = device
+         self.max_seq_length = max_seq_length
++        _configure_sdpa(device)
+         local_path = Path(model_path)
+         self.native_transformers = (
+             local_path.is_dir()
+@@ -31,7 +70,7 @@ class DenseEncoder:
+         if self.native_transformers:
+             from transformers import AutoModel, AutoTokenizer
+ 
+-            dtype = torch.bfloat16 if device.startswith("cuda") else torch.float32
++            dtype = _cuda_dtype(device)
+             self.tokenizer = AutoTokenizer.from_pretrained(
+                 model_path,
+                 trust_remote_code=True,
+@@ -51,14 +90,18 @@ class DenseEncoder:
+                 model_path,
+                 device=device,
+                 trust_remote_code=True,
+-                model_kwargs={"attn_implementation": "sdpa"},
++                model_kwargs={
++                    "attn_implementation": "sdpa",
++                    "torch_dtype": _cuda_dtype(device),
++                },
+             )
+             self.model.max_seq_length = max_seq_length
+             self.dim = self.model.get_sentence_embedding_dimension()
+         print(f"[encoder] loaded: {model_path}", flush=True)
+         print(
+             f"[encoder] dim={self.dim} max_seq_length={max_seq_length} "
+-            f"device={device} native_transformers={self.native_transformers}",
++            f"device={device} native_transformers={self.native_transformers} "
++            f"dtype={_cuda_dtype(device)}",
+             flush=True,
+         )
+ 
