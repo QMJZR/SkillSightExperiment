@@ -5,7 +5,7 @@
 | `e0_dense_v100.json` | 六任务 Dense 的完整评测输出（config、per_category、overall、summary_tables） |
 | `e0_skillsight_v100.json` | 六任务 SkillSight 的完整评测输出 |
 | `e1_bm25.json` | BM25 分任务 R@1/5/10 与 MRR |
-| `e1_rerank.json` | bge-reranker-v2-m3 在 Dense top-100 上的重排结果（跑完后提交） |
+| `e1_rerank.json` | bge-reranker-v2-m3 在 Dense top-100 上的重排结果（负结果） |
 | `pilot/dense_top100.npz` | 5,400 条 query 的 top-100 索引、分数、任务、gold rank |
 | `pilot/dense_top5.jsonl.gz` | 5,400 条 query 的 top-5 详细信息，含 skill 名、描述、正文前 1,500 字 |
 
@@ -17,7 +17,10 @@ R@10，micro：
 |---|---:|---:|
 | BM25 | 64.04 | 0.5179 |
 | Dense | 66.04 | 0.5713 |
+| Dense+Reranker | 54.23 | 0.4158 |
 | SkillSight | 86.07 | 0.7390 |
+
+Reranker 是负结果：除 toolqa（50.21→72.03）外所有任务都掉，medcalcbench 从 99.36 掉到 50.91。已排查分数形状、NaN、FP16 和截断长度；2048 长度在抽查样本上更差。不要把它当成“更强基线”，也不要为了让它好看而换模型。
 
 分任务结果见根目录 `README.md`。
 

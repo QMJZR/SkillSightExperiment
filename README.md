@@ -11,7 +11,7 @@ LLM Agent Skill Retrieval 的失败模式与 Functional Mismatch 研究。当前
 | 阶段 | 状态 | 结果 |
 |---|---|---|
 | 环境与复现（G0） | 通过 | Dense R@10 66.04（对照 66.09）；SkillSight 86.07（对照 86.13） |
-| E1 基线 | 3/4 | BM25 64.04；Reranker 运行中 |
+| E1 基线 | 4/4 | BM25 64.04；Dense+Reranker 54.23（负结果） |
 | Pilot 抽样 | 完成 | 100 query / 500 pair |
 | Validation 抽样 | 完成 | 200 query / 1,000 pair |
 | 标注手册 | v1.0 | `docs/02_标注手册.md` |
@@ -21,20 +21,21 @@ LLM Agent Skill Retrieval 的失败模式与 Functional Mismatch 研究。当前
 
 R@10，micro，SRA-Bench 5,400 条 query、26,262 个候选 skill：
 
-| 任务 | BM25 | Dense | SkillSight |
-|---|---:|---:|---:|
-| theoremqa | 85.81 | 94.78 | 96.12 |
-| logicbench | 26.84 | 35.39 | 69.21 |
-| toolqa | 80.56 | 50.21 | 91.54 |
-| medcalcbench | 63.18 | 99.36 | 99.00 |
-| champ | 45.98 | 62.94 | 58.98 |
-| bigcodebench | 58.21 | 55.94 | 76.68 |
-| **总体** | **64.04** | **66.04** | **86.07** |
+| 任务 | BM25 | Dense | SkillSight | Dense+Reranker |
+|---|---:|---:|---:|---:|
+| theoremqa | 85.81 | 94.78 | 96.12 | 91.03 |
+| logicbench | 26.84 | 35.39 | 69.21 | 20.53 |
+| toolqa | 80.56 | 50.21 | 91.54 | 72.03 |
+| medcalcbench | 63.18 | 99.36 | 99.00 | 50.91 |
+| champ | 45.98 | 62.94 | 58.98 | 42.77 |
+| bigcodebench | 58.21 | 55.94 | 76.68 | 35.70 |
+| **总体** | **64.04** | **66.04** | **86.07** | **54.23** |
 
-两个现象需要保留：
+三个现象需要保留：
 
 1. BM25 和 Dense 的分任务结果出现双向反转，BM25 在 toolqa 上高 30.35pp，Dense 在 medcalcbench 上高 36.18pp。失败分析不能只用一个 retriever 的失败集代表“现有方法”。
 2. SkillSight 在 champ 和 medcalcbench 上略低于 Dense，最强基线不是逐任务最强，所有对比都要分任务报。
+3. 通用 cross-encoder 重排是负结果：总体比 Dense 低 11.81pp，只有 toolqa 提升，medcalcbench 掉 48.45pp。分数形状、NaN、截断长度都排查过，512 和 2048 都试过，2048 反而更差。和 ToolRet 的 MonoT5 结论一致。
 
 ## 环境
 
