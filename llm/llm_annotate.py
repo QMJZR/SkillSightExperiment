@@ -38,11 +38,14 @@ def parse_json(text):
 
 
 def normalize(parsed):
+    fe = parsed.get("functional_equivalent", False)
+    if isinstance(fe, str):
+        fe = fe.strip().lower() in {"true", "yes", "1"}
     out = {
         "requirements": parsed.get("requirements", []),
         "semantic": int(parsed.get("semantic", -1)),
         "coverage": int(parsed.get("coverage", -1)),
-        "functional_equivalent": bool(parsed.get("functional_equivalent", False)),
+        "functional_equivalent": bool(fe),
         "invalid_reason": str(parsed.get("invalid_reason", "") or ""),
         "evidence": str(parsed.get("evidence", "") or ""),
         "confidence": int(parsed.get("confidence", 1)),
